@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DivyaYatra — Pilgrim Login</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Georgia',serif}
+:root{
+  --gold:#D4AF37;
+  --gold-dim:rgba(212,175,55,0.35);
+  --gold-faint:rgba(212,175,55,0.1);
+  --card-border:rgba(212,175,55,0.2);
+  --white-60:rgba(255,255,255,0.6);
+  --white-40:rgba(255,255,255,0.4);
+}
+html,body{height:100%;background:#080502}
+
+/* ── BG ── */
+.page-bg{position:fixed;inset:0;background-image:url('https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1600&q=85');background-size:cover;background-position:center;z-index:0}
+.page-overlay{position:fixed;inset:0;background:linear-gradient(135deg,rgba(8,5,2,0.93) 0%,rgba(8,5,2,0.78) 100%);z-index:1}
+
+/* ── LAYOUT ── */
+.page{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
+
+/* ── LEFT PANEL ── */
+.left{display:flex;flex-direction:column;justify-content:center;padding:60px 56px;border-right:1px solid var(--card-border)}
+.back-link{display:inline-flex;align-items:center;gap:7px;color:var(--white-40);font-size:12px;font-family:sans-serif;letter-spacing:.3px;margin-bottom:48px;transition:color .2s;text-decoration:none}
+.back-link:hover{color:var(--gold)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.brand-sym{width:44px;height:44px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:20px}
+.brand-text{color:#fff;font-size:18px;letter-spacing:.5px}
+.brand-sub{color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:sans-serif;margin-top:2px}
+.left-heading{color:#fff;font-size:32px;font-weight:400;line-height:1.25;margin-bottom:12px;margin-top:36px}
+.left-heading em{color:var(--gold);font-style:normal}
+.left-desc{color:var(--white-40);font-size:13px;font-family:sans-serif;line-height:1.75;max-width:360px;margin-bottom:40px}
+.perks{display:flex;flex-direction:column;gap:14px}
+.perk{display:flex;align-items:center;gap:12px}
+.perk-icon{width:36px;height:36px;border-radius:8px;background:var(--gold-faint);border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:17px;flex-shrink:0}
+.perk-text .pt{color:#fff;font-size:12px;font-family:sans-serif}
+.perk-text .ps{color:var(--white-40);font-size:11px;font-family:sans-serif;margin-top:1px}
+.switch-link{margin-top:48px;padding-top:32px;border-top:1px solid var(--card-border)}
+.switch-link p{color:var(--white-40);font-size:12px;font-family:sans-serif;margin-bottom:10px}
+.switch-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:8px;padding:10px 18px;color:#fff;font-size:12px;font-family:sans-serif;cursor:pointer;text-decoration:none;transition:border-color .2s,background .2s}
+.switch-btn:hover{border-color:var(--gold);background:var(--gold-faint)}
+.switch-btn i{color:var(--gold);font-size:16px}
+
+/* ── RIGHT PANEL ── */
+.right{display:flex;flex-direction:column;justify-content:center;padding:60px 56px}
+.form-header{margin-bottom:32px}
+.form-header h2{color:#fff;font-size:24px;font-weight:400;margin-bottom:6px}
+.form-header p{color:var(--white-40);font-size:13px;font-family:sans-serif;line-height:1.6}
+
+/* OTP / EMAIL TABS */
+.auth-tabs{display:flex;gap:0;background:rgba(255,255,255,0.05);border:1px solid var(--card-border);border-radius:9px;padding:3px;margin-bottom:28px}
+.auth-tab{flex:1;padding:9px;text-align:center;font-size:12px;font-family:sans-serif;color:var(--white-40);border-radius:7px;cursor:pointer;transition:all .2s}
+.auth-tab.active{background:var(--gold);color:#1a0f00;font-weight:700}
+
+.form-group{margin-bottom:18px}
+.form-label{display:block;color:var(--white-40);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;font-family:sans-serif;margin-bottom:7px}
+.form-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:9px;padding:13px 16px;color:#fff;font-size:13px;font-family:sans-serif;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--gold-dim)}
+.form-input::placeholder{color:rgba(255,255,255,0.22)}
+.input-wrap{position:relative}
+.input-wrap .form-input{padding-left:44px}
+.input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);font-size:18px;pointer-events:none}
+.input-action{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:11px;font-family:sans-serif;cursor:pointer;letter-spacing:.3px;font-weight:600}
+.input-action:hover{opacity:.8}
+
+/* OTP BOXES */
+.otp-group{display:flex;gap:10px;margin-bottom:6px}
+.otp-input{flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:9px;padding:14px 0;color:#fff;font-size:20px;font-family:'Georgia',serif;text-align:center;outline:none;transition:border-color .2s}
+.otp-input:focus{border-color:var(--gold-dim)}
+.otp-hint{color:var(--white-40);font-size:11px;font-family:sans-serif;margin-bottom:18px}
+.otp-hint span{color:var(--gold);cursor:pointer}
+
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.forgot{color:var(--gold);font-size:11px;font-family:sans-serif;cursor:pointer;display:block;text-align:right;margin-top:-10px;margin-bottom:20px}
+.forgot:hover{opacity:.8}
+
+/* DIVIDER */
+.or-row{display:flex;align-items:center;gap:12px;margin:22px 0}
+.or-line{flex:1;height:1px;background:rgba(255,255,255,0.1)}
+.or-text{color:var(--white-40);font-size:11px;font-family:sans-serif}
+
+/* SOCIAL BTNS */
+.social-btns{display:flex;gap:10px;margin-bottom:24px}
+.social-btn{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:11px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--white-60);font-size:12px;font-family:sans-serif;cursor:pointer;transition:background .2s,border-color .2s}
+.social-btn:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.25)}
+.social-btn img{width:18px;height:18px}
+
+/* SUBMIT */
+.submit-btn{width:100%;background:var(--gold);color:#1a0f00;border:none;border-radius:9px;padding:14px;font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;font-family:sans-serif;cursor:pointer;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:hover{opacity:.88}
+.submit-btn .btn-loader{display:none;width:18px;height:18px;border:2px solid rgba(26,15,0,0.3);border-top-color:#1a0f00;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.signup-row{text-align:center;margin-top:20px;color:var(--white-40);font-size:12px;font-family:sans-serif}
+.signup-row a{color:var(--gold);cursor:pointer}
+.signup-row a:hover{opacity:.8}
+
+/* REGISTER FORM (hidden by default) */
+.form-section{display:none}
+.form-section.active{display:block}
+
+/* TERMS */
+.terms-row{display:flex;align-items:flex-start;gap:9px;margin:16px 0}
+.terms-check{width:16px;height:16px;accent-color:var(--gold);flex-shrink:0;margin-top:1px}
+.terms-text{color:var(--white-40);font-size:11px;font-family:sans-serif;line-height:1.55}
+.terms-text a{color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;background:rgba(10,6,2,0.96);border:1px solid var(--gold-dim);border-radius:10px;padding:13px 18px;display:flex;align-items:center;gap:9px;color:#fff;font-size:13px;font-family:sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translateY(20px);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast i{color:var(--gold);font-size:17px;flex-shrink:0}
+
+/* STEP INDICATOR */
+.steps{display:flex;align-items:center;gap:0;margin-bottom:28px}
+.step-item{display:flex;align-items:center;gap:8px;flex:1}
+.step-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-family:sans-serif;font-weight:700;flex-shrink:0;transition:all .3s}
+.step-circle.done{background:var(--gold);color:#1a0f00}
+.step-circle.active{background:rgba(212,175,55,0.2);color:var(--gold);border:1.5px solid var(--gold)}
+.step-circle.pending{background:rgba(255,255,255,0.06);color:var(--white-40);border:1px solid rgba(255,255,255,0.14)}
+.step-label{color:var(--white-40);font-size:10px;font-family:sans-serif;letter-spacing:.4px}
+.step-conn{flex:1;height:1px;background:rgba(255,255,255,0.1);margin:0 8px}
+
+@media(max-width:768px){
+  .page{grid-template-columns:1fr}
+  .left{display:none}
+  .right{padding:40px 24px;min-height:100vh}
+}
+</style>
+</head>
+<body>
+
+<div class="page-bg"></div>
+<div class="page-overlay"></div>
+
+<div class="page">
+  <!-- ═══════════ LEFT PANEL ═══════════ -->
+  <div class="left">
+    <a href="index.html" class="back-link"><i class="ti ti-arrow-left"></i> Back to home</a>
+
+    <div class="brand">
+      <div class="brand-sym"><i class="ti ti-building-temple"></i></div>
+      <div><div class="brand-text">DivyaYatra</div><div class="brand-sub">Pilgrim Portal</div></div>
+    </div>
+
+    <div class="left-heading">Your sacred journey<br>starts <em>here.</em></div>
+    <div class="left-desc">Sign in to access your darshan bookings, route plans, crowd alerts, and virtual darshan — all in one divine space.</div>
+
+    <div class="perks">
+      <div class="perk">
+        <div class="perk-icon"><i class="ti ti-calendar-check"></i></div>
+        <div class="perk-text"><div class="pt">Manage darshan slots</div><div class="ps">View, reschedule, or cancel bookings</div></div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon"><i class="ti ti-bell-ringing"></i></div>
+        <div class="perk-text"><div class="pt">Personalized crowd alerts</div><div class="ps">Get notified before your temple gets crowded</div></div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon"><i class="ti ti-map-route"></i></div>
+        <div class="perk-text"><div class="pt">Saved pilgrimage routes</div><div class="ps">Access your multi-temple trip plans anytime</div></div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon"><i class="ti ti-heart-handshake"></i></div>
+        <div class="perk-text"><div class="pt">Seva & donation history</div><div class="ps">Track offerings and download receipts</div></div>
+      </div>
+    </div>
+
+    <div class="switch-link">
+      <p>Are you a temple authority?</p>
+      <a href="admin-login.html" class="switch-btn">
+        <i class="ti ti-shield-lock"></i> Go to Admin Login →
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════ RIGHT PANEL ═══════════ -->
+  <div class="right">
+    <!-- TABS: Login / Register -->
+    <div id="mainTabs" style="display:flex;gap:0;margin-bottom:32px">
+      <button onclick="switchMain('login')" id="tab-login" style="flex:1;padding:11px;background:var(--gold);color:#1a0f00;border:none;border-radius:9px 0 0 9px;font-size:13px;font-weight:700;font-family:sans-serif;cursor:pointer;letter-spacing:.3px">Sign In</button>
+      <button onclick="switchMain('register')" id="tab-register" style="flex:1;padding:11px;background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.12);border-left:none;border-radius:0 9px 9px 0;font-size:13px;font-family:sans-serif;cursor:pointer;letter-spacing:.3px">Create Account</button>
+    </div>
+
+    <!-- ═══ LOGIN SECTION ═══ -->
+    <div class="form-section active" id="section-login">
+      <div class="form-header">
+        <h2>Welcome back, pilgrim 🙏</h2>
+        <p>Sign in to continue your sacred journey.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchAuth('mobile')">Mobile OTP</div>
+        <div class="auth-tab" onclick="switchAuth('email')">Email & Password</div>
+      </div>
+
+      <!-- MOBILE OTP -->
+      <div id="auth-mobile">
+        <div id="step-mobile">
+          <div class="form-group">
+            <label class="form-label">Mobile number</label>
+            <div class="input-wrap">
+              <i class="ti ti-phone input-icon"></i>
+              <input class="form-input" id="mobileNum" type="tel" placeholder="+91 98765 43210"/>
+              <span class="input-action" onclick="sendOTP()">Send OTP</span>
+            </div>
+          </div>
+          <button class="submit-btn" onclick="sendOTP()">
+            <i class="ti ti-send"></i> Send OTP
+          </button>
+        </div>
+
+        <div id="step-otp" style="display:none">
+          <div class="form-group">
+            <label class="form-label">Enter OTP sent to <span id="otpTarget" style="color:var(--gold)"></span></label>
+            <div class="otp-group">
+              <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,0)"/>
+              <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,1)"/>
+              <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,2)"/>
+              <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,3)"/>
+              <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,4)"/>
+              <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,5)"/>
+            </div>
+            <div class="otp-hint">Didn't receive? <span onclick="resendOTP()">Resend OTP</span> <span id="otpTimer" style="color:rgba(255,255,255,0.3)"></span></div>
+          </div>
+          <button class="submit-btn" onclick="verifyOTP()">
+            <div class="btn-loader" id="otpLoader"></div>
+            <i class="ti ti-check" id="otpIcon"></i> Verify & Sign In
+          </button>
+          <div style="text-align:center;margin-top:14px"><span style="color:var(--gold);font-size:12px;font-family:sans-serif;cursor:pointer" onclick="goBackMobile()">← Change number</span></div>
+        </div>
+      </div>
+
+      <!-- EMAIL & PASSWORD -->
+      <div id="auth-email" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <div class="input-wrap">
+            <i class="ti ti-mail input-icon"></i>
+            <input class="form-input" id="loginEmail" type="email" placeholder="you@example.com"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-wrap">
+            <i class="ti ti-lock input-icon"></i>
+            <input class="form-input" id="loginPass" type="password" placeholder="Enter your password"/>
+            <span class="input-action" onclick="togglePass('loginPass', this)">Show</span>
+          </div>
+        </div>
+        <div class="forgot" onclick="forgotPassword()">Forgot password?</div>
+        <button class="submit-btn" onclick="emailLogin()">
+          <div class="btn-loader" id="emailLoader"></div>
+          <i class="ti ti-login" id="emailIcon"></i> Sign In
+        </button>
+      </div>
+
+      <div class="or-row"><div class="or-line"></div><div class="or-text">or continue with</div><div class="or-line"></div></div>
+      <div class="social-btns">
+        <button class="social-btn" onclick="socialLogin('Google')">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google
+        </button>
+        <button class="social-btn" onclick="socialLogin('Aadhaar')">
+          <i class="ti ti-id" style="color:#FF8C00;font-size:18px"></i>
+          Aadhaar OTP
+        </button>
+      </div>
+      <div class="signup-row">Don't have an account? <a onclick="switchMain('register')">Create one →</a></div>
+    </div>
+
+    <!-- ═══ REGISTER SECTION ═══ -->
+    <div class="form-section" id="section-register">
+      <div class="form-header">
+        <h2>Begin your pilgrimage 🙏</h2>
+        <p>Create your free DivyaYatra pilgrim account.</p>
+      </div>
+
+      <!-- STEP INDICATOR -->
+      <div class="steps" id="regSteps">
+        <div class="step-item">
+          <div class="step-circle active" id="sc1">1</div>
+          <div class="step-label">Personal</div>
+        </div>
+        <div class="step-conn"></div>
+        <div class="step-item">
+          <div class="step-circle pending" id="sc2">2</div>
+          <div class="step-label">Contact</div>
+        </div>
+        <div class="step-conn"></div>
+        <div class="step-item">
+          <div class="step-circle pending" id="sc3">3</div>
+          <div class="step-label">Verify</div>
+        </div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div id="reg-step1">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">First name</label>
+            <div class="input-wrap"><i class="ti ti-user input-icon"></i><input class="form-input" id="regFirst" type="text" placeholder="Arjun"/></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last name</label>
+            <div class="input-wrap"><i class="ti ti-user input-icon"></i><input class="form-input" id="regLast" type="text" placeholder="Menon"/></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date of birth</label>
+          <div class="input-wrap"><i class="ti ti-calendar input-icon"></i><input class="form-input" id="regDob" type="date"/></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">State</label>
+          <div class="input-wrap" style="position:relative">
+            <i class="ti ti-map-pin input-icon"></i>
+            <select class="form-input" id="regState" style="padding-left:44px;appearance:none;background:rgba(255,255,255,0.06);cursor:pointer">
+              <option value="">Select your state</option>
+              <option>Andhra Pradesh</option><option>Karnataka</option><option>Kerala</option>
+              <option>Maharashtra</option><option>Punjab</option><option>Rajasthan</option>
+              <option>Tamil Nadu</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+              <option>West Bengal</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <button class="submit-btn" onclick="regNext(1)"><i class="ti ti-arrow-right"></i> Continue</button>
+      </div>
+
+      <!-- STEP 2 -->
+      <div id="reg-step2" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Mobile number</label>
+          <div class="input-wrap"><i class="ti ti-phone input-icon"></i><input class="form-input" id="regMobile" type="tel" placeholder="+91 98765 43210"/></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <div class="input-wrap"><i class="ti ti-mail input-icon"></i><input class="form-input" id="regEmail" type="email" placeholder="you@example.com"/></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-wrap"><i class="ti ti-lock input-icon"></i><input class="form-input" id="regPass" type="password" placeholder="Min. 8 characters"/><span class="input-action" onclick="togglePass('regPass',this)">Show</span></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirm password</label>
+          <div class="input-wrap"><i class="ti ti-lock input-icon"></i><input class="form-input" id="regPass2" type="password" placeholder="Re-enter password"/></div>
+        </div>
+        <div class="terms-row">
+          <input type="checkbox" class="terms-check" id="termsCheck"/>
+          <label for="termsCheck" class="terms-text">I agree to DivyaYatra's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I consent to receive darshan alerts and seva reminders.</label>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="submit-btn" onclick="regBack()" style="background:rgba(255,255,255,0.08);color:#fff;flex:0 0 48px"><i class="ti ti-arrow-left"></i></button>
+          <button class="submit-btn" onclick="regNext(2)" style="flex:1"><i class="ti ti-arrow-right"></i> Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 — VERIFY -->
+      <div id="reg-step3" style="display:none">
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(212,175,55,0.12);border:1.5px solid rgba(212,175,55,0.4);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:26px;margin:0 auto 14px"><i class="ti ti-device-mobile-message"></i></div>
+          <div style="color:#fff;font-size:15px;font-family:'Georgia',serif;margin-bottom:6px">Verify your mobile</div>
+          <div style="color:var(--white-40);font-size:12px;font-family:sans-serif;line-height:1.6">We sent a 6-digit OTP to <span id="regOtpTarget" style="color:var(--gold)"></span></div>
+        </div>
+        <div class="form-group">
+          <div class="otp-group">
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,0,true)"/>
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,1,true)"/>
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,2,true)"/>
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,3,true)"/>
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,4,true)"/>
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,5,true)"/>
+          </div>
+        </div>
+        <button class="submit-btn" onclick="createAccount()">
+          <div class="btn-loader" id="regLoader"></div>
+          <i class="ti ti-user-check" id="regIcon"></i> Create my account
+        </button>
+        <div style="text-align:center;margin-top:14px"><span style="color:var(--gold);font-size:12px;font-family:sans-serif;cursor:pointer" onclick="resendOTP()">Resend OTP</span></div>
+      </div>
+
+      <div class="signup-row" style="margin-top:20px">Already have an account? <a onclick="switchMain('login')">Sign in →</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg"></span></div>
+
+<script>
+// ── UTILITIES ──
+function toast(icon, msg, dur=3000){
+  const t=document.getElementById('toast');
+  t.querySelector('i').className='ti '+icon;
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+function togglePass(id, btn){
+  const inp=document.getElementById(id);
+  const show=inp.type==='password';
+  inp.type=show?'text':'password';
+  btn.textContent=show?'Hide':'Show';
+}
+
+// ── SESSION HELPERS ──
+function setPilgrimSession(name, mobile){
+  sessionStorage.setItem('dy_pilgrim_session', JSON.stringify({
+    name: name || 'Pilgrim',
+    mobile: mobile || '',
+    loggedInAt: Date.now()
+  }));
+}
+function getRedirectTarget(){
+  const params = new URLSearchParams(window.location.search);
+  const target = params.get('redirect');
+  // Only allow same-site relative redirects, never external URLs
+  if (target && /^[a-zA-Z0-9_\-]+\.html$/.test(target)) return target;
+  return 'index.html';
+}
+
+// ── MAIN TABS ──
+function switchMain(tab){
+  document.getElementById('section-login').classList.toggle('active', tab==='login');
+  document.getElementById('section-register').classList.toggle('active', tab==='register');
+  const tl=document.getElementById('tab-login');
+  const tr=document.getElementById('tab-register');
+  if(tab==='login'){
+    tl.style.background='var(--gold)';tl.style.color='#1a0f00';tl.style.fontWeight='700';
+    tr.style.background='rgba(255,255,255,0.05)';tr.style.color='rgba(255,255,255,0.5)';tr.style.fontWeight='400';
+  } else {
+    tr.style.background='var(--gold)';tr.style.color='#1a0f00';tr.style.fontWeight='700';
+    tl.style.background='rgba(255,255,255,0.05)';tl.style.color='rgba(255,255,255,0.5)';tl.style.fontWeight='400';
+  }
+}
+
+// ── AUTH TABS ──
+function switchAuth(type){
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',i===(type==='mobile'?0:1)));
+  document.getElementById('auth-mobile').style.display=type==='mobile'?'block':'none';
+  document.getElementById('auth-email').style.display=type==='email'?'block':'none';
+}
+
+// ── OTP SEND ──
+let otpTimerInt;
+function sendOTP(){
+  const num=document.getElementById('mobileNum').value.trim();
+  if(!num){toast('ti-alert-circle','Please enter your mobile number.');return;}
+  document.getElementById('step-mobile').style.display='none';
+  document.getElementById('step-otp').style.display='block';
+  document.getElementById('otpTarget').textContent=num;
+  toast('ti-send','OTP sent to '+num);
+  startOTPTimer();
+  document.querySelectorAll('#step-otp .otp-input')[0].focus();
+}
+
+function startOTPTimer(){
+  let sec=30;
+  clearInterval(otpTimerInt);
+  const el=document.getElementById('otpTimer');
+  el.textContent='(Resend in '+sec+'s)';
+  otpTimerInt=setInterval(()=>{
+    sec--;
+    if(sec<=0){clearInterval(otpTimerInt);el.textContent='';} else el.textContent='(Resend in '+sec+'s)';
+  },1000);
+}
+
+function resendOTP(){toast('ti-send','OTP resent!');startOTPTimer();}
+function goBackMobile(){document.getElementById('step-mobile').style.display='block';document.getElementById('step-otp').style.display='none';}
+
+// ── OTP INPUT MOVEMENT ──
+function otpMove(inp, idx, isReg=false){
+  const container=inp.closest(isReg?'#reg-step3 .otp-group':'#step-otp .otp-group');
+  const inputs=[...container.querySelectorAll('.otp-input')];
+  if(inp.value&&idx<5) inputs[idx+1].focus();
+}
+
+// ── VERIFY OTP ──
+function verifyOTP(){
+  const container=document.getElementById('step-otp');
+  const otp=[...container.querySelectorAll('.otp-input')].map(i=>i.value).join('');
+  if(otp.length<6){toast('ti-alert-circle','Please enter the 6-digit OTP.');return;}
+  document.getElementById('otpLoader').style.display='block';
+  document.getElementById('otpIcon').style.display='none';
+  setTimeout(()=>{
+    document.getElementById('otpLoader').style.display='none';
+    document.getElementById('otpIcon').style.display='';
+    const mobile=document.getElementById('mobileNum').value.trim();
+    setPilgrimSession('Pilgrim', mobile);
+    toast('ti-circle-check','Login successful! Redirecting...', 2000);
+    setTimeout(()=>{window.location.href=getRedirectTarget();},2000);
+  },1800);
+}
+
+// ── EMAIL LOGIN ──
+function emailLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  if(!email||!pass){toast('ti-alert-circle','Please enter your email and password.');return;}
+  document.getElementById('emailLoader').style.display='block';
+  document.getElementById('emailIcon').style.display='none';
+  setTimeout(()=>{
+    document.getElementById('emailLoader').style.display='none';
+    document.getElementById('emailIcon').style.display='';
+    const name=email.split('@')[0];
+    setPilgrimSession(name, '');
+    toast('ti-circle-check','Login successful! Redirecting...', 2000);
+    setTimeout(()=>{window.location.href=getRedirectTarget();},2000);
+  },1800);
+}
+
+function forgotPassword(){toast('ti-mail','Password reset link sent to your email.', 4000);}
+
+// ── SOCIAL LOGIN ──
+function socialLogin(provider){
+  toast('ti-brand-google','Connecting with '+provider+'...', 2200);
+  setTimeout(()=>{
+    setPilgrimSession('Pilgrim', '');
+    toast('ti-circle-check','Signed in with '+provider+'! Redirecting...', 1800);
+    setTimeout(()=>{window.location.href=getRedirectTarget();},1800);
+  },2200);
+}
+
+// ── REGISTRATION ──
+let regStep=1;
+function regNext(step){
+  if(step===1){
+    if(!document.getElementById('regFirst').value.trim()||!document.getElementById('regLast').value.trim()){
+      toast('ti-alert-circle','Please fill in your name.');return;
+    }
+    regStep=2;
+    document.getElementById('reg-step1').style.display='none';
+    document.getElementById('reg-step2').style.display='block';
+    setStepUI(2);
+  } else if(step===2){
+    const mob=document.getElementById('regMobile').value.trim();
+    const email=document.getElementById('regEmail').value.trim();
+    const pass=document.getElementById('regPass').value;
+    const pass2=document.getElementById('regPass2').value;
+    const terms=document.getElementById('termsCheck').checked;
+    if(!mob||!email||!pass){toast('ti-alert-circle','Please fill all fields.');return;}
+    if(pass!==pass2){toast('ti-alert-circle','Passwords do not match.');return;}
+    if(!terms){toast('ti-alert-circle','Please accept the terms to continue.');return;}
+    document.getElementById('regOtpTarget').textContent=mob;
+    regStep=3;
+    document.getElementById('reg-step2').style.display='none';
+    document.getElementById('reg-step3').style.display='block';
+    setStepUI(3);
+    toast('ti-send','OTP sent to '+mob);
+    document.querySelectorAll('#reg-step3 .otp-input')[0].focus();
+  }
+}
+
+function regBack(){
+  regStep=1;
+  document.getElementById('reg-step2').style.display='none';
+  document.getElementById('reg-step1').style.display='block';
+  setStepUI(1);
+}
+
+function setStepUI(active){
+  for(let i=1;i<=3;i++){
+    const el=document.getElementById('sc'+i);
+    el.className='step-circle '+(i<active?'done':i===active?'active':'pending');
+  }
+}
+
+function createAccount(){
+  const container=document.getElementById('reg-step3');
+  const otp=[...container.querySelectorAll('.otp-input')].map(i=>i.value).join('');
+  if(otp.length<6){toast('ti-alert-circle','Please enter the 6-digit OTP.');return;}
+  document.getElementById('regLoader').style.display='block';
+  document.getElementById('regIcon').style.display='none';
+  setTimeout(()=>{
+    document.getElementById('regLoader').style.display='none';
+    document.getElementById('regIcon').style.display='';
+    const fname=document.getElementById('regFirst').value.trim();
+    const lname=document.getElementById('regLast').value.trim();
+    const mobile=document.getElementById('regMobile').value.trim();
+    setPilgrimSession((fname+' '+lname).trim(), mobile);
+    toast('ti-circle-check','Account created! Welcome to DivyaYatra 🙏', 3000);
+    setTimeout(()=>{window.location.href=getRedirectTarget();},2500);
+  },2000);
+}
+
+// ── KEYBOARD SUPPORT FOR OTP ──
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Backspace'&&e.target.classList.contains('otp-input')){
+    const inputs=[...e.target.closest('.otp-group').querySelectorAll('.otp-input')];
+    const idx=inputs.indexOf(e.target);
+    if(!e.target.value&&idx>0) inputs[idx-1].focus();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Browse 1,240+ temples across India with history, deity information, timings, dress code, and accessibility details."/>
+<title>Temple Directory — DivyaYatra</title>
+<script>
+  (function () {
+    if (!sessionStorage.getItem('dy_pilgrim_session')) {
+      window.location.replace('pilgrim-login.html?redirect=temples.html');
+    }
+  })();
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<button id="backToTop" aria-label="Back to top"><i class="ti ti-chevron-up"></i></button>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="logo" style="text-decoration:none">
+    <div class="logo-sym"><i class="ti ti-building-temple" aria-hidden="true"></i></div>
+    <div><div class="logo-text">DivyaYatra</div><div class="logo-sub">Pilgrimage &amp; Crowd Management</div></div>
+  </a>
+  <div class="nav-links" role="menubar">
+    <a href="crowd.html">Live Crowd</a>
+    <a href="booking.html">Book Darshan</a>
+    <a href="temples.html" class="active">Temples</a>
+    <a href="planner.html">Planner</a>
+    <a href="darshan.html">Virtual Darshan</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="sos.html">SOS</a>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu"><i class="ti ti-menu-2"></i></button>
+    <span id="pilgrimGreeting" style="color:rgba(255,255,255,0.55);font-size:12px;font-family:sans-serif"></span>
+    <button class="nav-cta" onclick="pilgrimLogout()" style="background:transparent;border:1px solid rgba(212,175,55,0.4);color:#D4AF37">Sign Out</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1600&q=85')"></div>
+  <div class="page-hero-ov" style="background:linear-gradient(to bottom, rgba(4,2,10,0.6), rgba(4,2,10,0.93))"></div>
+  <div class="page-hero-in">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span class="current">Temple Directory</span></div>
+    <h1>Explore <em>1,240+ sacred temples</em></h1>
+    <p>Detailed profiles with history, deity information, visiting timings, dress code, and accessibility details — covering every major pilgrimage destination in India.</p>
+    <div class="page-hero-stats">
+      <div class="phs-item"><div class="phs-num">28</div><div class="phs-lbl">States covered</div></div>
+      <div class="phs-item"><div class="phs-num">1,240+</div><div class="phs-lbl">Temples listed</div></div>
+      <div class="phs-item"><div class="phs-num">12</div><div class="phs-lbl">Languages supported</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <a href="#search" class="active">Search</a>
+  <a href="#south">South India</a>
+  <a href="#north">North India</a>
+  <a href="#west">West India</a>
+  <a href="#east">East &amp; Northeast</a>
+  <a href="#dress-code">Dress Code Guide</a>
+</div>
+
+<!-- SEARCH -->
+<section class="content-sec" id="search">
+  <div class="content-sec-in">
+    <div class="eyebrow">Find a temple</div>
+    <div class="sec-h" style="color:#fff">Search the directory</div>
+    <div class="search-wrap" role="search">
+      <i class="ti ti-search"></i>
+      <input type="search" id="templeSearch" placeholder="Search by temple name, deity, or state..." aria-label="Search temples"/>
+    </div>
+    <div class="filter-bar">
+      <div class="filter-chip active">All</div>
+      <div class="filter-chip">Shiva</div>
+      <div class="filter-chip">Vishnu</div>
+      <div class="filter-chip">Devi / Shakti</div>
+      <div class="filter-chip">Ganesha</div>
+      <div class="filter-chip">Sikh Gurdwara</div>
+      <div class="filter-chip">Jain</div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- SOUTH INDIA -->
+<section class="content-sec alt" id="south">
+  <div class="content-sec-in">
+    <div class="eyebrow">Region</div>
+    <div class="sec-h" style="color:#fff">South India</div>
+    <div class="sec-sub">Home to some of India's largest and most architecturally significant temple complexes.</div>
+    <div class="temple-cards-grid">
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1588416499018-d8c621e7d2c2?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Meenakshi Amman Temple</div>
+          <div class="tc-state">Madurai, Tamil Nadu — Devi (Meenakshi) &amp; Shiva</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 5 AM – 10 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Tirupati Balaji Temple</div>
+          <div class="tc-state">Tirumala, Andhra Pradesh — Vishnu (Venkateswara)</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 3 AM – 11 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1506461883276-594a12b11cf3?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Sabarimala Temple</div>
+          <div class="tc-state">Pathanamthitta, Kerala — Lord Ayyappa</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> Seasonal — Nov to Jan</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- NORTH INDIA -->
+<section class="content-sec" id="north">
+  <div class="content-sec-in">
+    <div class="eyebrow">Region</div>
+    <div class="sec-h" style="color:#fff">North India</div>
+    <div class="sec-sub">From the ghats of Varanasi to the Himalayan shrines of Uttarakhand and the Golden Temple of Punjab.</div>
+    <div class="temple-cards-grid">
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1609947017136-9daf32a5c910?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Kashi Vishwanath Temple</div>
+          <div class="tc-state">Varanasi, Uttar Pradesh — Shiva</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 3 AM – 11 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1571108249479-d4d86da88ed7?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Golden Temple, Amritsar</div>
+          <div class="tc-state">Amritsar, Punjab — Sikh Gurdwara</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> Open 24 hrs</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Kedarnath Temple</div>
+          <div class="tc-state">Rudraprayag, Uttarakhand — Shiva</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 6 AM – 8:30 PM (Seasonal)</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Vaishno Devi Shrine</div>
+          <div class="tc-state">Katra, Jammu &amp; Kashmir — Devi (Mata Vaishno Devi)</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> Open 24 hrs</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1597211833712-5e41faa202ea?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Akshardham Temple</div>
+          <div class="tc-state">New Delhi — Swaminarayan</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 9:30 AM – 6:30 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- WEST INDIA -->
+<section class="content-sec alt" id="west">
+  <div class="content-sec-in">
+    <div class="eyebrow">Region</div>
+    <div class="sec-h" style="color:#fff">West India</div>
+    <div class="sec-sub">Coastal shrines and bustling urban temples across Maharashtra and Gujarat.</div>
+    <div class="temple-cards-grid">
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1510797215324-95aa89f43c33?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Siddhivinayak Temple</div>
+          <div class="tc-state">Prabhadevi, Mumbai — Ganesha</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 5:30 AM – 10 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1600093112218-4fcb48bb1fc5?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Somnath Temple</div>
+          <div class="tc-state">Somnath, Gujarat — Shiva (Jyotirlinga)</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 6 AM – 9:30 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1567595350098-30b52250c786?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Dwarkadhish Temple</div>
+          <div class="tc-state">Dwarka, Gujarat — Vishnu (Krishna)</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 6:30 AM – 9:30 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- EAST INDIA -->
+<section class="content-sec" id="east">
+  <div class="content-sec-in">
+    <div class="eyebrow">Region</div>
+    <div class="sec-h" style="color:#fff">East &amp; Northeast India</div>
+    <div class="sec-sub">From the chariot festival of Puri to ancient Shakti peeth temples across Bengal and Assam.</div>
+    <div class="temple-cards-grid">
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Jagannath Temple</div>
+          <div class="tc-state">Puri, Odisha — Jagannath (Krishna)</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 5 AM – 11 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1597211833712-5e41faa202ea?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Kamakhya Temple</div>
+          <div class="tc-state">Guwahati, Assam — Devi (Shakti Peeth)</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 5:30 AM – 10 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+      <div class="temple-card">
+        <div class="temple-card-img" style="background-image:url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=75')"><div class="temple-card-img-overlay"></div></div>
+        <div class="temple-card-body">
+          <div class="tc-name">Dakshineswar Kali Temple</div>
+          <div class="tc-state">Kolkata, West Bengal — Devi (Kali)</div>
+          <div class="tc-row"><span class="tc-time"><i class="ti ti-clock"></i> 6 AM – 8:30 PM</span><a href="booking.html" class="tc-btn" style="text-decoration:none">Book darshan</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- DRESS CODE -->
+<section class="content-sec alt" id="dress-code">
+  <div class="content-sec-in" style="max-width:900px">
+    <div class="eyebrow">Visiting etiquette</div>
+    <div class="sec-h" style="color:#fff">Dress code &amp; etiquette guide</div>
+    <div class="sec-sub">General guidelines across most temples — always check individual temple pages for specific rules.</div>
+    <table class="data-table">
+      <thead><tr><th>Aspect</th><th>Guideline</th></tr></thead>
+      <tbody>
+        <tr><td>Clothing</td><td>Traditional or modest attire preferred; shoulders and knees should be covered</td></tr>
+        <tr><td>Footwear</td><td>Must be removed before entering the main temple premises</td></tr>
+        <tr><td>Photography</td><td>Usually prohibited inside the sanctum; permitted in outer courtyards at most temples</td></tr>
+        <tr><td>Leather items</td><td>Not allowed inside some traditional South Indian temples (belts, wallets, bags)</td></tr>
+        <tr><td>Mobile phones</td><td>Often required to be switched to silent or left at cloak rooms near the sanctum</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">DivyaYatra</div>
+      <div class="footer-brand-sub">Pilgrimage &amp; Crowd Management</div>
+      <div class="footer-brand-desc">India's most trusted platform for temple pilgrimage planning, real-time crowd management, and sacred journey guidance.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Pilgrims</div>
+      <a href="booking.html">Book darshan slot</a>
+      <a href="temples.html">Explore temples</a>
+      <a href="planner.html">Route planner</a>
+      <a href="darshan.html">Virtual darshan</a>
+      <a href="crowd.html">Crowd alerts</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <a href="sos.html">SOS &amp; lost found</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="#">Seva &amp; donations</a>
+      <a href="#">Accommodation</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Authorities</div>
+      <a href="admin-login.html">Temple authority login</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="#">About DivyaYatra</a>
+      <a href="#">Contact us</a>
+      <a href="#">Privacy policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 DivyaYatra. All rights reserved.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg"></span></div>
+
+<script src="js/main.js"></script>
+<script>
+  (function () {
+    var raw = sessionStorage.getItem('dy_pilgrim_session');
+    if (raw) { try { var sess = JSON.parse(raw); var el = document.getElementById('pilgrimGreeting'); if (el && sess.name) el.textContent = 'Namaste, ' + sess.name.split(' ')[0]; } catch (e) {} }
+  })();
+  function pilgrimLogout() { sessionStorage.removeItem('dy_pilgrim_session'); window.location.replace('pilgrim-login.html'); }
+
+  document.querySelectorAll('.filter-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});
+      chip.classList.add('active');
+    });
+  });
+
+  var subnavLinks = document.querySelectorAll('.subnav a');
+  var sections = Array.from(subnavLinks).map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  window.addEventListener('scroll', function(){
+    var pos = window.scrollY + 140;
+    sections.forEach(function(sec, i){
+      if (sec && pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+        subnavLinks.forEach(function(l){l.classList.remove('active')});
+        subnavLinks[i].classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DivyaYatra — Admin Dashboard</title>
+<script>
+  // ── AUTH GUARD: block access unless an admin session exists ──
+  (function () {
+    var session = sessionStorage.getItem('dy_admin_session');
+    if (!session) {
+      window.location.replace('admin-login.html');
+    }
+  })();
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+  .admin-topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 48px;background:rgba(10,6,2,0.92);border-bottom:1px solid rgba(212,175,55,0.2)}
+  .admin-id-chip{display:flex;align-items:center;gap:10px;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.25);border-radius:20px;padding:6px 14px}
+  .admin-id-chip i{color:#D4AF37;font-size:15px}
+  .admin-id-chip span{color:rgba(255,255,255,0.7);font-size:11.5px;font-family:sans-serif}
+  .logout-btn{background:transparent;border:1px solid rgba(212,175,55,0.4);color:#D4AF37;border-radius:7px;padding:9px 18px;font-size:12px;font-family:sans-serif;font-weight:700;letter-spacing:.3px;text-transform:uppercase;cursor:pointer}
+  .logout-btn:hover{background:rgba(212,175,55,0.1)}
+</style>
+</head>
+<body style="background:#0a0602">
+
+<div class="admin-topbar">
+  <div class="logo">
+    <div class="logo-sym"><i class="ti ti-shield-lock" aria-hidden="true"></i></div>
+    <div>
+      <div class="logo-text">DivyaYatra</div>
+      <div class="logo-sub">Temple Authority Console</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="admin-id-chip"><i class="ti ti-id-badge-2"></i><span id="adminChipText">Loading session…</span></div>
+    <button class="logout-btn" onclick="adminLogout()">Sign Out</button>
+  </div>
+</div>
+
+<section class="sec" id="admin" aria-label="Admin dashboard for temple authorities">
+  <div class="sec-bg" style="background-image:url('https://images.unsplash.com/photo-1567595350098-30b52250c786?w=1600&q=85')"></div>
+  <div class="sec-ov" style="background:rgba(2,4,2,0.92)"></div>
+  <div class="sec-in">
+    <div class="eyebrow">Temple authority panel</div>
+    <div class="sec-h">Admin dashboard — <span class="gold" id="templeNameDisplay">Tirupati Balaji</span></div>
+    <div class="sec-sub">Full control over crowd gates, staff deployment, slot caps, and emergency broadcasts — all in real time.</div>
+    <div class="admin-grid" role="region" aria-label="Key metrics">
+      <div class="admin-metric"><div class="am-num">87,340</div><div class="am-lbl">Pilgrims today</div><div class="am-delta delta-up"><i class="ti ti-trending-up" aria-hidden="true"></i> +12% vs yesterday</div></div>
+      <div class="admin-metric"><div class="am-num">4.5 hrs</div><div class="am-lbl">Avg wait time</div><div class="am-delta delta-dn"><i class="ti ti-trending-down" aria-hidden="true"></i> −30 min since 10 AM</div></div>
+      <div class="admin-metric"><div class="am-num">2 of 6</div><div class="am-lbl">Gates open</div><div class="am-delta" style="color:rgba(255,255,255,0.3);font-size:11px;font-family:sans-serif">4 restricted · peak hour</div></div>
+      <div class="admin-metric"><div class="am-num">142</div><div class="am-lbl">Staff on duty</div><div class="am-delta delta-up"><i class="ti ti-check" aria-hidden="true"></i> All zones covered</div></div>
+    </div>
+    <div class="admin-lower">
+      <div class="admin-panel">
+        <div class="panel-head"><div class="panel-title">Gate control</div><button class="panel-action" onclick="showToast('ti-broadcast','Emergency broadcast sent to all pilgrims.',4000)">Broadcast emergency alert →</button></div>
+        <div class="gate-row"><span class="gate-name"><i class="ti ti-door-enter" aria-hidden="true"></i>Gate 1 — Main entry</span><button class="gate-toggle on" aria-label="Toggle gate 1"></button></div>
+        <div class="gate-row"><span class="gate-name"><i class="ti ti-door-enter" aria-hidden="true"></i>Gate 2 — VIP &amp; senior</span><button class="gate-toggle on" aria-label="Toggle gate 2"></button></div>
+        <div class="gate-row"><span class="gate-name"><i class="ti ti-door-enter" aria-hidden="true"></i>Gate 3 — General</span><button class="gate-toggle off" aria-label="Toggle gate 3"></button></div>
+        <div class="gate-row"><span class="gate-name"><i class="ti ti-door-enter" aria-hidden="true"></i>Gate 4 — East corridor</span><button class="gate-toggle off" aria-label="Toggle gate 4"></button></div>
+        <div class="gate-row"><span class="gate-name"><i class="ti ti-door-enter" aria-hidden="true"></i>Gate 5 — Prasad queue</span><button class="gate-toggle on" aria-label="Toggle gate 5"></button></div>
+        <div class="gate-row"><span class="gate-name"><i class="ti ti-door-enter" aria-hidden="true"></i>Gate 6 — Exit only</span><button class="gate-toggle on" aria-label="Toggle gate 6"></button></div>
+      </div>
+      <div class="admin-panel">
+        <div class="panel-head"><div class="panel-title">Staff on duty</div><div class="panel-action">Full roster →</div></div>
+        <div class="staff-row"><div class="staff-av">RK</div><div class="staff-name">Rajan Kumar</div><span class="badge-pill pill-green" style="font-size:9px">Gate 1</span></div>
+        <div class="staff-row"><div class="staff-av">SV</div><div class="staff-name">Sunita Varma</div><span class="badge-pill pill-green" style="font-size:9px">Gate 2</span></div>
+        <div class="staff-row"><div class="staff-av">MP</div><div class="staff-name">Mohan Pillai</div><span class="badge-pill pill-amber" style="font-size:9px">Queue Mgmt</span></div>
+        <div class="staff-row"><div class="staff-av">AS</div><div class="staff-name">Arjun Sharma</div><span class="badge-pill pill-blue" style="font-size:9px">Medical</span></div>
+        <div class="staff-row"><div class="staff-av">DL</div><div class="staff-name">Deepa Lakshmi</div><span class="badge-pill pill-amber" style="font-size:9px">Prasad</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" role="contentinfo">
+  <div class="footer-bottom" style="border-top:none;padding-top:0">
+    <div class="footer-copy">© 2026 DivyaYatra. Temple Authority Console — Restricted Access.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg"></span></div>
+
+<script>
+  // ── LOAD ADMIN SESSION ──
+  (function () {
+    var raw = sessionStorage.getItem('dy_admin_session');
+    if (raw) {
+      try {
+        var sess = JSON.parse(raw);
+        document.getElementById('adminChipText').textContent = (sess.staffId || 'Admin') + ' · ' + (sess.role === 'super' ? 'Super Admin' : 'Temple Admin');
+        if (sess.temple) document.getElementById('templeNameDisplay').textContent = sess.temple.split('—')[0].trim();
+      } catch (e) {}
+    }
+  })();
+
+  function adminLogout() {
+    sessionStorage.removeItem('dy_admin_session');
+    window.location.replace('admin-login.html');
+  }
+
+  function showToast(icon, msg, dur) {
+    dur = dur || 3000;
+    var t = document.getElementById('toast');
+    t.querySelector('i').className = 'ti ' + icon;
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(function () { t.classList.remove('show'); }, dur);
+  }
+
+  // ── GATE TOGGLES ──
+  document.querySelectorAll('.gate-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var isOn = btn.classList.contains('on');
+      btn.classList.toggle('on', !isOn);
+      btn.classList.toggle('off', isOn);
+      var gateName = btn.closest('.gate-row').querySelector('.gate-name').textContent.trim();
+      showToast(isOn ? 'ti-door-off' : 'ti-door-enter', gateName.slice(0, 30) + (isOn ? ' closed.' : ' opened.'));
+    });
+  });
+</script>
+</body>
+</html>

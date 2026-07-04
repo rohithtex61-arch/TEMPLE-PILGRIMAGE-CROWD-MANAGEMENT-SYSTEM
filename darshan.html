@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Watch live aarti and temple rituals from anywhere with DivyaYatra Virtual Darshan."/>
+<title>Virtual Darshan — DivyaYatra</title>
+<script>
+  (function () {
+    if (!sessionStorage.getItem('dy_pilgrim_session')) {
+      window.location.replace('pilgrim-login.html?redirect=darshan.html');
+    }
+  })();
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<button id="backToTop" aria-label="Back to top"><i class="ti ti-chevron-up"></i></button>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="logo" style="text-decoration:none">
+    <div class="logo-sym"><i class="ti ti-building-temple" aria-hidden="true"></i></div>
+    <div><div class="logo-text">DivyaYatra</div><div class="logo-sub">Pilgrimage &amp; Crowd Management</div></div>
+  </a>
+  <div class="nav-links" role="menubar">
+    <a href="crowd.html">Live Crowd</a>
+    <a href="booking.html">Book Darshan</a>
+    <a href="temples.html">Temples</a>
+    <a href="planner.html">Planner</a>
+    <a href="darshan.html" class="active">Virtual Darshan</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="sos.html">SOS</a>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu"><i class="ti ti-menu-2"></i></button>
+    <span id="pilgrimGreeting" style="color:rgba(255,255,255,0.55);font-size:12px;font-family:sans-serif"></span>
+    <button class="nav-cta" onclick="pilgrimLogout()" style="background:transparent;border:1px solid rgba(212,175,55,0.4);color:#D4AF37">Sign Out</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1609947017136-9daf32a5c910?w=1600&q=85')"></div>
+  <div class="page-hero-ov" style="background:linear-gradient(to bottom, rgba(2,0,8,0.6), rgba(2,0,8,0.93))"></div>
+  <div class="page-hero-in">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span class="current">Virtual Darshan</span></div>
+    <h1>Witness the divine — <em>from anywhere</em></h1>
+    <p>Watch live aarti, temple rituals, and sacred events in real time. Experience darshan when you cannot be there in person.</p>
+    <div class="page-hero-stats">
+      <div class="phs-item"><div class="phs-num">9</div><div class="phs-lbl">Live streams now</div></div>
+      <div class="phs-item"><div class="phs-num">HD</div><div class="phs-lbl">Stream quality</div></div>
+      <div class="phs-item"><div class="phs-num">24/7</div><div class="phs-lbl">Always-on temples</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <a href="#now-playing" class="active">Now Playing</a>
+  <a href="#all-streams">All Live Streams</a>
+  <a href="#schedule">Today's Schedule</a>
+  <a href="#replays">Past Recordings</a>
+</div>
+
+<!-- NOW PLAYING -->
+<section class="content-sec" id="now-playing">
+  <div class="content-sec-in">
+    <div class="vd-grid">
+      <div>
+        <div class="stream-box" style="height:340px">
+          <div class="stream-thumb"></div>
+          <div class="stream-dark"></div>
+          <div class="stream-badge"><div class="live-dot"></div>Live</div>
+          <button class="play-btn" aria-label="Play live stream"><i class="ti ti-player-play"></i></button>
+          <div class="stream-temple-name">Kashi Vishwanath Mangala Aarti</div>
+          <div class="stream-viewers"><i class="ti ti-eye"></i> 12,840 watching</div>
+        </div>
+        <div class="stream-controls">
+          <button class="sc-btn"><i class="ti ti-volume"></i> Audio on</button>
+          <button class="sc-btn"><i class="ti ti-maximize"></i> Full screen</button>
+          <button class="sc-btn" onclick="shareStream()"><i class="ti ti-share"></i> Share</button>
+          <button class="sc-btn gold-btn" onclick="showToast('ti-heart','Thank you! Redirecting to seva donation...')"><i class="ti ti-heart"></i> Donate seva</button>
+        </div>
+      </div>
+      <div>
+        <div style="color:rgba(255,255,255,0.38);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:sans-serif;margin-bottom:12px">Up next</div>
+        <div class="vd-list">
+          <div class="vd-item"><div class="vd-thumb" style="background-image:url('https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=200&q=60')"></div><div class="vd-info"><div class="vn">Tirupati Suprabhatam</div><div class="vm">Starts 5:30 AM · Tomorrow</div></div><div class="vd-live-tag"><span class="badge-pill pill-amber">Scheduled</span></div></div>
+          <div class="vd-item"><div class="vd-thumb" style="background-image:url('https://images.unsplash.com/photo-1588416499018-d8c621e7d2c2?w=200&q=60')"></div><div class="vd-info"><div class="vn">Meenakshi Evening Aarti</div><div class="vm">9,240 watching now</div></div><div class="vd-live-tag"><span class="badge-pill pill-red">Live</span></div></div>
+          <div class="vd-item"><div class="vd-thumb" style="background-image:url('https://images.unsplash.com/photo-1571108249479-d4d86da88ed7?w=200&q=60')"></div><div class="vd-info"><div class="vn">Golden Temple Kirtan</div><div class="vm">Open 24 hrs · Always live</div></div><div class="vd-live-tag"><span class="badge-pill pill-red">Live</span></div></div>
+          <div class="vd-item"><div class="vd-thumb" style="background-image:url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=200&q=60')"></div><div class="vd-info"><div class="vn">Kedarnath Morning Puja</div><div class="vm">Recorded · Yesterday 6 AM</div></div><div class="vd-live-tag"><span class="badge-pill pill-blue">Replay</span></div></div>
+          <div class="vd-item"><div class="vd-thumb" style="background-image:url('https://images.unsplash.com/photo-1510797215324-95aa89f43c33?w=200&q=60')"></div><div class="vd-info"><div class="vn">Siddhivinayak Aarti</div><div class="vm">6,120 watching now</div></div><div class="vd-live-tag"><span class="badge-pill pill-red">Live</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ALL STREAMS GRID -->
+<section class="content-sec alt" id="all-streams">
+  <div class="content-sec-in">
+    <div class="eyebrow">Browse</div>
+    <div class="sec-h" style="color:#fff">All live streams</div>
+    <div class="stream-grid">
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1609947017136-9daf32a5c910?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-red">Live</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Kashi Vishwanath</div><div class="sgi-meta">12,840 watching</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1588416499018-d8c621e7d2c2?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-red">Live</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Meenakshi Amman</div><div class="sgi-meta">9,240 watching</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1571108249479-d4d86da88ed7?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-red">Live</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Golden Temple</div><div class="sgi-meta">Always live</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1510797215324-95aa89f43c33?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-red">Live</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Siddhivinayak</div><div class="sgi-meta">6,120 watching</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-amber">Scheduled</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Tirupati Balaji</div><div class="sgi-meta">Starts 5:30 AM</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-blue">Replay</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Kedarnath Temple</div><div class="sgi-meta">Recorded yesterday</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-red">Live</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Vaishno Devi Shrine</div><div class="sgi-meta">4,510 watching</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1597211833712-5e41faa202ea?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-blue">Replay</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Akshardham Delhi</div><div class="sgi-meta">Recorded 2 days ago</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- SCHEDULE -->
+<section class="content-sec" id="schedule">
+  <div class="content-sec-in">
+    <div class="eyebrow">Plan your watch</div>
+    <div class="sec-h" style="color:#fff">Today's stream schedule</div>
+    <table class="data-table">
+      <thead><tr><th>Time</th><th>Temple</th><th>Ritual</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>4:00 AM</td><td>Kashi Vishwanath</td><td>Mangala Aarti</td><td><span class="badge-pill pill-red">Live now</span></td></tr>
+        <tr><td>5:30 AM</td><td>Tirupati Balaji</td><td>Suprabhatam</td><td><span class="badge-pill pill-amber">Upcoming</span></td></tr>
+        <tr><td>6:00 AM</td><td>Siddhivinayak</td><td>Kakad Aarti</td><td><span class="badge-pill pill-red">Live now</span></td></tr>
+        <tr><td>12:00 PM</td><td>Meenakshi Amman</td><td>Madhyahna Puja</td><td><span class="badge-pill pill-amber">Upcoming</span></td></tr>
+        <tr><td>7:00 PM</td><td>Vaishno Devi</td><td>Sandhya Aarti</td><td><span class="badge-pill pill-amber">Upcoming</span></td></tr>
+        <tr><td>9:00 PM</td><td>Meenakshi Amman</td><td>Evening Aarti</td><td><span class="badge-pill pill-amber">Upcoming</span></td></tr>
+        <tr><td>24 hrs</td><td>Golden Temple</td><td>Continuous Kirtan</td><td><span class="badge-pill pill-red">Always live</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- REPLAYS -->
+<section class="content-sec alt" id="replays">
+  <div class="content-sec-in">
+    <div class="eyebrow">Missed it?</div>
+    <div class="sec-h" style="color:#fff">Past recordings</div>
+    <div class="stream-grid">
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-blue">Replay</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Kedarnath Morning Puja</div><div class="sgi-meta">Yesterday, 6:00 AM</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1597211833712-5e41faa202ea?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-blue">Replay</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Akshardham Evening Show</div><div class="sgi-meta">2 days ago</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1600093112218-4fcb48bb1fc5?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-blue">Replay</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Somnath Jyotirlinga Abhishek</div><div class="sgi-meta">3 days ago</div></div>
+      </div>
+      <div class="stream-grid-item">
+        <div class="sgi-thumb" style="background-image:url('https://images.unsplash.com/photo-1567595350098-30b52250c786?w=400&q=70')"><div class="sgi-overlay"></div><div class="sgi-badge"><span class="badge-pill pill-blue">Replay</span></div></div>
+        <div class="sgi-body"><div class="sgi-name">Dwarkadhish Janmashtami Special</div><div class="sgi-meta">5 days ago</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">DivyaYatra</div>
+      <div class="footer-brand-sub">Pilgrimage &amp; Crowd Management</div>
+      <div class="footer-brand-desc">India's most trusted platform for temple pilgrimage planning, real-time crowd management, and sacred journey guidance.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Pilgrims</div>
+      <a href="booking.html">Book darshan slot</a>
+      <a href="temples.html">Explore temples</a>
+      <a href="planner.html">Route planner</a>
+      <a href="darshan.html">Virtual darshan</a>
+      <a href="crowd.html">Crowd alerts</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <a href="sos.html">SOS &amp; lost found</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="#">Seva &amp; donations</a>
+      <a href="#">Accommodation</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Authorities</div>
+      <a href="admin-login.html">Temple authority login</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="#">About DivyaYatra</a>
+      <a href="#">Contact us</a>
+      <a href="#">Privacy policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 DivyaYatra. All rights reserved.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg"></span></div>
+
+<script src="js/main.js"></script>
+<script>
+  (function () {
+    var raw = sessionStorage.getItem('dy_pilgrim_session');
+    if (raw) { try { var sess = JSON.parse(raw); var el = document.getElementById('pilgrimGreeting'); if (el && sess.name) el.textContent = 'Namaste, ' + sess.name.split(' ')[0]; } catch (e) {} }
+  })();
+  function pilgrimLogout() { sessionStorage.removeItem('dy_pilgrim_session'); window.location.replace('pilgrim-login.html'); }
+  function showToast(icon, msg, dur) {
+    dur = dur || 3000;
+    var t = document.getElementById('toast');
+    t.querySelector('i').className = 'ti ' + icon;
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(function () { t.classList.remove('show'); }, dur);
+  }
+  function shareStream(){
+    if (navigator.share) { navigator.share({ title: 'DivyaYatra Live Stream', url: window.location.href }); }
+    else { navigator.clipboard?.writeText(window.location.href); showToast('ti-link','Stream link copied to clipboard!'); }
+  }
+  var subnavLinks = document.querySelectorAll('.subnav a');
+  var sections = Array.from(subnavLinks).map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  window.addEventListener('scroll', function(){
+    var pos = window.scrollY + 140;
+    sections.forEach(function(sec, i){
+      if (sec && pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+        subnavLinks.forEach(function(l){l.classList.remove('active')});
+        subnavLinks[i].classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Book darshan slots at India's major temples with QR-coded passes, zero fees, and free rescheduling."/>
+<title>Book Darshan — DivyaYatra</title>
+<script>
+  (function () {
+    if (!sessionStorage.getItem('dy_pilgrim_session')) {
+      window.location.replace('pilgrim-login.html?redirect=booking.html');
+    }
+  })();
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+<script src="js/qrgen.js"></script>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<button id="backToTop" aria-label="Back to top"><i class="ti ti-chevron-up"></i></button>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="logo" style="text-decoration:none">
+    <div class="logo-sym"><i class="ti ti-building-temple" aria-hidden="true"></i></div>
+    <div><div class="logo-text">DivyaYatra</div><div class="logo-sub">Pilgrimage &amp; Crowd Management</div></div>
+  </a>
+  <div class="nav-links" role="menubar">
+    <a href="crowd.html">Live Crowd</a>
+    <a href="booking.html" class="active">Book Darshan</a>
+    <a href="temples.html">Temples</a>
+    <a href="planner.html">Planner</a>
+    <a href="darshan.html">Virtual Darshan</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="sos.html">SOS</a>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu"><i class="ti ti-menu-2"></i></button>
+    <span id="pilgrimGreeting" style="color:rgba(255,255,255,0.55);font-size:12px;font-family:sans-serif"></span>
+    <button class="nav-cta" onclick="pilgrimLogout()" style="background:transparent;border:1px solid rgba(212,175,55,0.4);color:#D4AF37">Sign Out</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1610020408974-c8e3fcde7ade?w=1600&q=85')"></div>
+  <div class="page-hero-ov" style="background:linear-gradient(to bottom, rgba(5,2,0,0.6), rgba(5,2,0,0.93))"></div>
+  <div class="page-hero-in">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span class="current">Book Darshan</span></div>
+    <h1>Zero queue, <em>zero fees</em></h1>
+    <p>Reserve your darshan slot in seconds, receive a QR-coded pass instantly, and walk straight through priority entry — completely free.</p>
+    <div class="page-hero-stats">
+      <div class="phs-item"><div class="phs-num">₹0</div><div class="phs-lbl">Booking commission</div></div>
+      <div class="phs-item"><div class="phs-num">12</div><div class="phs-lbl">Temples bookable today</div></div>
+      <div class="phs-item"><div class="phs-num">2 min</div><div class="phs-lbl">Average booking time</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <a href="#book-now" class="active">Book a Slot</a>
+  <a href="#temples-open">Temples Open for Booking</a>
+  <a href="#how-it-works">How It Works</a>
+  <a href="#policies">Policies</a>
+  <a href="#faq">FAQ</a>
+</div>
+
+<!-- BOOK NOW -->
+<section class="content-sec" id="book-now">
+  <div class="content-sec-in">
+    <div class="booking-grid">
+      <div>
+        <div class="eyebrow">Reserve in 3 steps</div>
+        <div class="sec-h" style="color:#fff">Book your darshan slot</div>
+        <div class="sec-sub" style="margin-bottom:0">Select a temple and time below. You'll receive a QR-coded pass instantly on your phone — no printing required.</div>
+        <div class="booking-perks">
+          <div class="perk"><div class="perk-dot"></div>Instant QR-coded entry pass on your phone</div>
+          <div class="perk"><div class="perk-dot"></div>Senior citizen &amp; differently-abled priority slots</div>
+          <div class="perk"><div class="perk-dot"></div>Reminders 2 hours before your darshan time</div>
+          <div class="perk"><div class="perk-dot"></div>Free rescheduling up to 12 hours in advance</div>
+          <div class="perk"><div class="perk-dot"></div>Multilingual support in 12 Indian languages</div>
+          <div class="perk"><div class="perk-dot"></div>Works offline — pass stored on your device</div>
+        </div>
+      </div>
+      <div class="booking-panel">
+        <div class="panel-label">Select temple</div>
+        <select class="form-input form-select" id="templeSelect" style="margin-bottom:18px;appearance:none;cursor:pointer">
+          <option>Siddhivinayak Temple — Mumbai</option>
+          <option>Tirupati Balaji Temple — Tirumala</option>
+          <option>Kashi Vishwanath Temple — Varanasi</option>
+          <option>Meenakshi Amman Temple — Madurai</option>
+          <option>Golden Temple — Amritsar</option>
+        </select>
+        <div class="panel-label">June 16, 2026 — available slots</div>
+        <div class="slot-grid" role="group" aria-label="Available time slots">
+          <div class="slot slot-full">5:30 AM<br><span style="font-size:9px">Full</span></div>
+          <div class="slot slot-full">6:00 AM<br><span style="font-size:9px">Full</span></div>
+          <div class="slot">7:00 AM<br><span style="font-size:9px;color:rgba(255,255,255,0.38)">8 left</span></div>
+          <div class="slot slot-sel">8:00 AM<br><span style="font-size:9px">Selected</span></div>
+          <div class="slot">9:00 AM<br><span style="font-size:9px;color:rgba(255,255,255,0.38)">24 left</span></div>
+          <div class="slot slot-rush">10:00 AM<br><span style="font-size:9px">Rush hr</span></div>
+          <div class="slot">11:30 AM<br><span style="font-size:9px;color:rgba(255,255,255,0.38)">41 left</span></div>
+          <div class="slot">2:00 PM<br><span style="font-size:9px;color:rgba(255,255,255,0.38)">60 left</span></div>
+        </div>
+        <div class="slot-legend">
+          <div class="leg"><div class="leg-dot" style="background:#D4AF37"></div>Selected</div>
+          <div class="leg"><div class="leg-dot" style="background:rgba(255,255,255,0.28)"></div>Available</div>
+          <div class="leg"><div class="leg-dot" style="background:#EF9F27"></div>Rush hour</div>
+          <div class="leg"><div class="leg-dot" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1)"></div>Full</div>
+        </div>
+        <button class="confirm-btn" onclick="document.getElementById('bookingModal').classList.add('open')">Confirm 8:00 AM darshan →</button>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- TEMPLES OPEN -->
+<section class="content-sec alt" id="temples-open">
+  <div class="content-sec-in">
+    <div class="eyebrow">Available now</div>
+    <div class="sec-h" style="color:#fff">Temples open for booking today</div>
+    <table class="data-table">
+      <thead><tr><th>Temple</th><th>Earliest Slot</th><th>Slots Left Today</th><th>Priority Lanes</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Siddhivinayak Temple, Mumbai</td><td>7:00 AM</td><td>133</td><td>Senior, Disabled</td><td><a href="#book-now" class="tc-btn" style="text-decoration:none">Book →</a></td></tr>
+        <tr><td>Tirupati Balaji Temple</td><td>6:00 AM (Full)</td><td>0 — next slot 6 PM</td><td>VIP, Senior</td><td><a href="#book-now" class="tc-btn" style="text-decoration:none">Book →</a></td></tr>
+        <tr><td>Kashi Vishwanath Temple</td><td>4:00 AM</td><td>312</td><td>Senior, Disabled</td><td><a href="#book-now" class="tc-btn" style="text-decoration:none">Book →</a></td></tr>
+        <tr><td>Meenakshi Amman Temple</td><td>5:00 AM</td><td>208</td><td>Senior</td><td><a href="#book-now" class="tc-btn" style="text-decoration:none">Book →</a></td></tr>
+        <tr><td>Golden Temple, Amritsar</td><td>Open 24 hrs</td><td>Unlimited</td><td>None needed</td><td><a href="#book-now" class="tc-btn" style="text-decoration:none">Book →</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="content-sec" id="how-it-works">
+  <div class="content-sec-in" style="max-width:760px">
+    <div class="eyebrow">Simple process</div>
+    <div class="sec-h" style="color:#fff">How darshan booking works</div>
+    <div style="margin-top:28px">
+      <div class="step-card-row">
+        <div class="step-card-num">1</div>
+        <div class="step-card-body"><div class="scb-title">Choose temple &amp; time</div><div class="scb-desc">Pick from any of our 1,240+ listed temples and select an available time slot for the date you plan to visit.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num">2</div>
+        <div class="step-card-body"><div class="scb-title">Enter pilgrim details</div><div class="scb-desc">Provide your name, mobile number, and the number of pilgrims in your group — no payment required.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num">3</div>
+        <div class="step-card-body"><div class="scb-title">Receive your QR pass</div><div class="scb-desc">A QR-coded entry pass is generated instantly and stored on your device, even without an internet connection.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num">4</div>
+        <div class="step-card-body"><div class="scb-title">Scan &amp; enter</div><div class="scb-desc">Show your QR pass at the priority gate. Average entry time after booking is under 10 minutes.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- POLICIES -->
+<section class="content-sec alt" id="policies">
+  <div class="content-sec-in">
+    <div class="eyebrow">Good to know</div>
+    <div class="sec-h" style="color:#fff">Booking policies</div>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon-wrap"><i class="ti ti-clock-edit"></i></div><div class="feat-title">Free Rescheduling</div><div class="feat-desc">Change your slot up to 12 hours before your booking at no charge, subject to availability.</div></div>
+      <div class="feat-card"><div class="feat-icon-wrap"><i class="ti ti-ban"></i></div><div class="feat-title">No-show Policy</div><div class="feat-desc">Unused slots are released automatically 15 minutes after the booked time to keep queues moving.</div></div>
+      <div class="feat-card"><div class="feat-icon-wrap"><i class="ti ti-accessible"></i></div><div class="feat-title">Priority Access</div><div class="feat-desc">Senior citizens (60+) and differently-abled pilgrims get dedicated low-wait lanes at every temple.</div></div>
+      <div class="feat-card"><div class="feat-icon-wrap"><i class="ti ti-users-group"></i></div><div class="feat-title">Group Bookings</div><div class="feat-desc">Book for up to 10 pilgrims in a single reservation; larger groups should contact temple administration directly.</div></div>
+      <div class="feat-card"><div class="feat-icon-wrap"><i class="ti ti-id"></i></div><div class="feat-title">ID Requirements</div><div class="feat-desc">Carry a valid government ID matching the name on your booking for verification at the gate.</div></div>
+      <div class="feat-card"><div class="feat-icon-wrap"><i class="ti ti-currency-rupee"></i></div><div class="feat-title">Always Free</div><div class="feat-desc">DivyaYatra never charges a booking fee or commission — the platform is fully free for pilgrims.</div></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="content-sec" id="faq">
+  <div class="content-sec-in" style="max-width:760px">
+    <div class="eyebrow">Questions</div>
+    <div class="sec-h" style="color:#fff">Frequently asked questions</div>
+    <div style="margin-top:20px">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Is there really no booking fee?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Correct — DivyaYatra does not charge pilgrims any booking fee or commission. The platform is funded through partnerships with temple trusts, not pilgrim charges.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Can I book for someone else?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Yes, simply enter their name and the number of pilgrims in your party — the QR pass will reflect the names provided at booking.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>What happens if I miss my slot?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Your reserved slot is held for 15 minutes past the booked time. After that, you'll need to book a new slot subject to same-day availability.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Do I need internet access to use my QR pass?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>No — once generated, your QR pass is stored locally on your device and works offline at the gate scanner.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">DivyaYatra</div>
+      <div class="footer-brand-sub">Pilgrimage &amp; Crowd Management</div>
+      <div class="footer-brand-desc">India's most trusted platform for temple pilgrimage planning, real-time crowd management, and sacred journey guidance.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Pilgrims</div>
+      <a href="booking.html">Book darshan slot</a>
+      <a href="temples.html">Explore temples</a>
+      <a href="planner.html">Route planner</a>
+      <a href="darshan.html">Virtual darshan</a>
+      <a href="crowd.html">Crowd alerts</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <a href="sos.html">SOS &amp; lost found</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="#">Seva &amp; donations</a>
+      <a href="#">Accommodation</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Authorities</div>
+      <a href="admin-login.html">Temple authority login</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="#">About DivyaYatra</a>
+      <a href="#">Contact us</a>
+      <a href="#">Privacy policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 DivyaYatra. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close modal" onclick="document.getElementById('bookingModal').classList.remove('open')">&times;</button>
+
+    <!-- STEP 1: booking form -->
+    <div id="bookingFormView">
+      <div class="modal-title">Confirm your darshan</div>
+      <div class="modal-sub">Slot: <strong style="color:#D4AF37" id="modalTime">8:00 AM</strong> · June 16, 2026</div>
+      <div class="form-row"><label class="form-label" for="pilName">Your full name</label><input class="form-input" id="pilName" type="text" placeholder="e.g. Priya Krishnamurthy"/></div>
+      <div class="form-row"><label class="form-label" for="pilMobile">Mobile number</label><input class="form-input" id="pilMobile" type="tel" placeholder="+91 98765 43210"/></div>
+      <div class="form-row">
+        <label class="form-label" for="pilCount">Number of pilgrims</label>
+        <select class="form-input form-select" id="pilCount"><option>1 pilgrim</option><option>2 pilgrims</option><option>3 pilgrims</option><option>4 pilgrims</option><option>5 pilgrims</option></select>
+      </div>
+      <button class="confirm-btn" id="confirmBooking" style="margin-top:6px">Get QR pass — Free</button>
+    </div>
+
+    <!-- STEP 2: QR pass result (hidden until booking confirmed) -->
+    <div id="qrPassView" style="display:none;text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(99,153,34,0.15);border:1px solid rgba(99,153,34,0.35);border-radius:20px;padding:5px 14px;margin-bottom:18px">
+        <i class="ti ti-circle-check" style="color:#9ECB6B;font-size:15px"></i>
+        <span style="color:#C0DD97;font-size:11.5px;font-family:sans-serif;font-weight:700;letter-spacing:.3px">BOOKING CONFIRMED</span>
+      </div>
+      <div class="modal-title" style="margin-bottom:4px" id="qrTempleName">Siddhivinayak Temple</div>
+      <div class="modal-sub" style="margin-bottom:18px" id="qrSlotLine">8:00 AM · June 16, 2026</div>
+
+      <div style="background:#fff;border-radius:14px;padding:18px;display:inline-block;margin-bottom:16px" id="qrCodeHolder">
+        <!-- QR SVG injected here by JS -->
+      </div>
+
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(212,175,55,0.2);border-radius:10px;padding:14px 16px;text-align:left;margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <span style="color:rgba(255,255,255,0.4);font-size:11px;font-family:sans-serif">Pilgrim</span>
+          <span style="color:#fff;font-size:12px;font-family:sans-serif;font-weight:600" id="qrPilgrimName">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <span style="color:rgba(255,255,255,0.4);font-size:11px;font-family:sans-serif">Pilgrims in group</span>
+          <span style="color:#fff;font-size:12px;font-family:sans-serif;font-weight:600" id="qrPilgrimCount">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0">
+          <span style="color:rgba(255,255,255,0.4);font-size:11px;font-family:sans-serif">Pass ID</span>
+          <span style="color:#D4AF37;font-size:12px;font-family:sans-serif;font-weight:700;letter-spacing:.5px" id="qrPassId">—</span>
+        </div>
+      </div>
+
+      <p style="color:rgba(255,255,255,0.4);font-size:11px;font-family:sans-serif;line-height:1.6;margin-bottom:18px">Show this QR code at the priority entry gate. It's saved on this device and works without internet.</p>
+
+      <div style="display:flex;gap:10px">
+        <button class="sc-btn" style="flex:1" onclick="window.print()"><i class="ti ti-printer"></i> Print pass</button>
+        <button class="btn-gold" style="flex:1" onclick="document.getElementById('bookingModal').classList.remove('open')">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg"></span></div>
+
+<script src="js/main.js"></script>
+<script>
+  (function () {
+    var raw = sessionStorage.getItem('dy_pilgrim_session');
+    if (raw) { try { var sess = JSON.parse(raw); var el = document.getElementById('pilgrimGreeting'); if (el && sess.name) el.textContent = 'Namaste, ' + sess.name.split(' ')[0]; } catch (e) {} }
+  })();
+  function pilgrimLogout() { sessionStorage.removeItem('dy_pilgrim_session'); window.location.replace('pilgrim-login.html'); }
+
+  var subnavLinks = document.querySelectorAll('.subnav a');
+  var sections = Array.from(subnavLinks).map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  window.addEventListener('scroll', function(){
+    var pos = window.scrollY + 140;
+    sections.forEach(function(sec, i){
+      if (sec && pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+        subnavLinks.forEach(function(l){l.classList.remove('active')});
+        subnavLinks[i].classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>

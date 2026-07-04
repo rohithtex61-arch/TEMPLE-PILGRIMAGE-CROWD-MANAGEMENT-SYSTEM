@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Emergency SOS and lost and found services for pilgrims at India's major temples."/>
+<title>SOS & Lost and Found — DivyaYatra</title>
+<script>
+  (function () {
+    if (!sessionStorage.getItem('dy_pilgrim_session')) {
+      window.location.replace('pilgrim-login.html?redirect=sos.html');
+    }
+  })();
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<button id="backToTop" aria-label="Back to top"><i class="ti ti-chevron-up"></i></button>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="logo" style="text-decoration:none">
+    <div class="logo-sym"><i class="ti ti-building-temple" aria-hidden="true"></i></div>
+    <div><div class="logo-text">DivyaYatra</div><div class="logo-sub">Pilgrimage &amp; Crowd Management</div></div>
+  </a>
+  <div class="nav-links" role="menubar">
+    <a href="crowd.html">Live Crowd</a>
+    <a href="booking.html">Book Darshan</a>
+    <a href="temples.html">Temples</a>
+    <a href="planner.html">Planner</a>
+    <a href="darshan.html">Virtual Darshan</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="sos.html" class="active">SOS</a>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu"><i class="ti ti-menu-2"></i></button>
+    <span id="pilgrimGreeting" style="color:rgba(255,255,255,0.55);font-size:12px;font-family:sans-serif"></span>
+    <button class="nav-cta" onclick="pilgrimLogout()" style="background:transparent;border:1px solid rgba(212,175,55,0.4);color:#D4AF37">Sign Out</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1510797215324-95aa89f43c33?w=1600&q=85')"></div>
+  <div class="page-hero-ov" style="background:linear-gradient(to bottom, rgba(8,2,2,0.65), rgba(8,2,2,0.93))"></div>
+  <div class="page-hero-in">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span class="current">SOS &amp; Lost and Found</span></div>
+    <h1>Safety &amp; <em>emergency support</em></h1>
+    <p>Instant emergency help and a community-powered lost &amp; found — because every pilgrim deserves to feel safe on their sacred journey.</p>
+    <div class="page-hero-stats">
+      <div class="phs-item"><div class="phs-num">&lt;4 min</div><div class="phs-lbl">Avg. SOS response</div></div>
+      <div class="phs-item"><div class="phs-num">142</div><div class="phs-lbl">Items reunited this month</div></div>
+      <div class="phs-item"><div class="phs-num">24/7</div><div class="phs-lbl">Safety monitoring</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <a href="#emergency" class="active">Emergency SOS</a>
+  <a href="#lost-found">Lost &amp; Found</a>
+  <a href="#safety-tips">Safety Tips</a>
+  <a href="#emergency-contacts">Emergency Contacts</a>
+  <a href="#faq">FAQ</a>
+</div>
+
+<!-- EMERGENCY SOS -->
+<section class="content-sec" id="emergency">
+  <div class="content-sec-in">
+    <div class="eyebrow">Immediate help</div>
+    <div class="sec-h" style="color:#fff">Emergency SOS</div>
+    <div class="sec-sub">One tap sends your live GPS location to temple security, the nearest medical post, and local police. Average response time under 4 minutes.</div>
+    <div class="sos-grid">
+      <div class="sos-card">
+        <div class="sos-icon"><i class="ti ti-sos"></i></div>
+        <div class="sos-title">Activate Emergency SOS</div>
+        <div class="sos-desc">Use only in genuine emergencies — medical issues, safety threats, or being separated from your group in a crowd.</div>
+        <div class="sos-feature"><i class="ti ti-map-pin" style="color:#F09595;font-size:15px"></i> Shares your live GPS location instantly</div>
+        <div class="sos-feature"><i class="ti ti-phone-call" style="color:#F09595;font-size:15px"></i> Auto-dials nearest temple helpline</div>
+        <div class="sos-feature"><i class="ti ti-heart-rate-monitor" style="color:#F09595;font-size:15px"></i> Medical aid dispatch under 4 min</div>
+        <div class="sos-feature"><i class="ti ti-users" style="color:#F09595;font-size:15px"></i> Alerts your registered emergency contact</div>
+        <button class="sos-btn" id="sosBtn"><i class="ti ti-sos"></i> Activate SOS — Emergency only</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="crowd-card" style="padding:20px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);display:flex;align-items:center;justify-content:center;color:#D4AF37"><i class="ti ti-medical-cross"></i></div>
+            <div class="temple-name" style="margin-bottom:0">Medical Emergency</div>
+          </div>
+          <div class="crowd-loc" style="color:rgba(255,255,255,0.45);font-size:11.5px;font-family:sans-serif;line-height:1.6">First-aid posts are stationed at every gate. SOS dispatches the nearest on-site medical team directly.</div>
+        </div>
+        <div class="crowd-card" style="padding:20px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);display:flex;align-items:center;justify-content:center;color:#D4AF37"><i class="ti ti-users-group"></i></div>
+            <div class="temple-name" style="margin-bottom:0">Separated From Group</div>
+          </div>
+          <div class="crowd-loc" style="color:rgba(255,255,255,0.45);font-size:11.5px;font-family:sans-serif;line-height:1.6">Share your live location with travel companions in advance from your profile to reunite quickly in crowds.</div>
+        </div>
+        <div class="crowd-card" style="padding:20px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:36px;height:36px;border-radius:8px;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);display:flex;align-items:center;justify-content:center;color:#D4AF37"><i class="ti ti-shield-exclamation"></i></div>
+            <div class="temple-name" style="margin-bottom:0">Safety Threat</div>
+          </div>
+          <div class="crowd-loc" style="color:rgba(255,255,255,0.45);font-size:11.5px;font-family:sans-serif;line-height:1.6">SOS alerts are routed directly to temple security and local police for immediate on-ground response.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- LOST & FOUND -->
+<section class="content-sec alt" id="lost-found">
+  <div class="content-sec-in">
+    <div class="eyebrow">Community powered</div>
+    <div class="sec-h" style="color:#fff">Lost &amp; found portal</div>
+    <div class="sec-sub">Report lost items or browse found items submitted by fellow pilgrims and temple volunteers. All claims are verified by temple staff.</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+      <div class="filter-bar" style="margin-bottom:0">
+        <div class="filter-chip active">All items</div>
+        <div class="filter-chip">Unclaimed</div>
+        <div class="filter-chip">Claimed</div>
+        <div class="filter-chip">Documents</div>
+        <div class="filter-chip">Electronics</div>
+        <div class="filter-chip">Bags &amp; wallets</div>
+      </div>
+      <button class="btn-gold" onclick="document.getElementById('lfModal').classList.add('open')"><i class="ti ti-plus"></i> Report item</button>
+    </div>
+    <table class="data-table">
+      <thead><tr><th>Item</th><th>Temple</th><th>Location Found</th><th>Reported</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Black backpack — Wildcraft</td><td>Tirupati Balaji</td><td>Near Gate 2</td><td>2 hrs ago</td><td><span class="badge-pill pill-amber">Unclaimed</span></td></tr>
+        <tr><td>Samsung phone — cracked screen</td><td>Tirupati Balaji</td><td>Prasad queue</td><td>4 hrs ago</td><td><span class="badge-pill pill-green">Claimed</span></td></tr>
+        <tr><td>Aadhaar card — Ramesh K.</td><td>Kashi Vishwanath</td><td>Cloak room</td><td>Yesterday</td><td><span class="badge-pill pill-amber">Unclaimed</span></td></tr>
+        <tr><td>Brown leather wallet</td><td>Siddhivinayak</td><td>Near main sanctum</td><td>1 day ago</td><td><span class="badge-pill pill-amber">Unclaimed</span></td></tr>
+        <tr><td>Spectacles — gold frame</td><td>Meenakshi Amman</td><td>Outer corridor</td><td>2 days ago</td><td><span class="badge-pill pill-green">Claimed</span></td></tr>
+        <tr><td>Children's water bottle</td><td>Golden Temple</td><td>Langar hall</td><td>2 days ago</td><td><span class="badge-pill pill-amber">Unclaimed</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- SAFETY TIPS -->
+<section class="content-sec" id="safety-tips">
+  <div class="content-sec-in" style="max-width:760px">
+    <div class="eyebrow">Stay prepared</div>
+    <div class="sec-h" style="color:#fff">Safety tips for crowded temples</div>
+    <div style="margin-top:28px">
+      <div class="step-card-row">
+        <div class="step-card-num"><i class="ti ti-id" style="font-size:16px"></i></div>
+        <div class="step-card-body"><div class="scb-title">Carry identification at all times</div><div class="scb-desc">Keep a government ID and a card with your emergency contact's number on your person, especially in large crowds.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num"><i class="ti ti-map-pin" style="font-size:16px"></i></div>
+        <div class="step-card-body"><div class="scb-title">Agree on a meeting point</div><div class="scb-desc">Before entering a crowded temple, set a clear meeting point with your group in case anyone gets separated.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num"><i class="ti ti-battery" style="font-size:16px"></i></div>
+        <div class="step-card-body"><div class="scb-title">Keep your phone charged</div><div class="scb-desc">SOS and live location sharing rely on your phone — carry a power bank for long pilgrimage days.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num"><i class="ti ti-droplet" style="font-size:16px"></i></div>
+        <div class="step-card-body"><div class="scb-title">Stay hydrated</div><div class="scb-desc">Long queues in heat can cause dehydration — water stations are marked on the temple's facilities map.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- EMERGENCY CONTACTS -->
+<section class="content-sec alt" id="emergency-contacts">
+  <div class="content-sec-in">
+    <div class="eyebrow">Save these numbers</div>
+    <div class="sec-h" style="color:#fff">Emergency contacts</div>
+    <table class="data-table">
+      <thead><tr><th>Service</th><th>Contact</th><th>Availability</th></tr></thead>
+      <tbody>
+        <tr><td>DivyaYatra Emergency Helpline</td><td>1800-XXX-YATRA</td><td>24/7</td></tr>
+        <tr><td>National Emergency Number</td><td>112</td><td>24/7</td></tr>
+        <tr><td>Tirupati Temple Security</td><td>0877-XXX-XXXX</td><td>24/7</td></tr>
+        <tr><td>Kashi Vishwanath Security</td><td>0542-XXX-XXXX</td><td>24/7</td></tr>
+        <tr><td>Ambulance</td><td>108</td><td>24/7</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="content-sec" id="faq">
+  <div class="content-sec-in" style="max-width:760px">
+    <div class="eyebrow">Questions</div>
+    <div class="sec-h" style="color:#fff">Frequently asked questions</div>
+    <div style="margin-top:20px">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>What happens after I press SOS?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Your live location is shared instantly with temple security and the nearest medical post. A response team is typically dispatched within 4 minutes.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>How do I claim a found item?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Click "Report item" and select "I lost an item," describing it in detail. Our team cross-checks it against the found-items log and verifies ownership before releasing it.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Is the SOS button monitored at all times?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Yes — the SOS system is monitored 24/7 by both DivyaYatra's safety team and on-ground temple security staff.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">DivyaYatra</div>
+      <div class="footer-brand-sub">Pilgrimage &amp; Crowd Management</div>
+      <div class="footer-brand-desc">India's most trusted platform for temple pilgrimage planning, real-time crowd management, and sacred journey guidance.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Pilgrims</div>
+      <a href="booking.html">Book darshan slot</a>
+      <a href="temples.html">Explore temples</a>
+      <a href="planner.html">Route planner</a>
+      <a href="darshan.html">Virtual darshan</a>
+      <a href="crowd.html">Crowd alerts</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <a href="sos.html">SOS &amp; lost found</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="#">Seva &amp; donations</a>
+      <a href="#">Accommodation</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Authorities</div>
+      <a href="admin-login.html">Temple authority login</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="#">About DivyaYatra</a>
+      <a href="#">Contact us</a>
+      <a href="#">Privacy policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 DivyaYatra. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- LOST & FOUND MODAL -->
+<div class="modal-overlay" id="lfModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal-close" aria-label="Close modal" onclick="document.getElementById('lfModal').classList.remove('open')">&times;</button>
+    <div class="modal-title">Report lost or found item</div>
+    <div class="modal-sub">All reports are reviewed by temple staff within 30 minutes.</div>
+    <div class="form-row">
+      <label class="form-label" for="lfType">Report type</label>
+      <select class="form-input form-select" id="lfType"><option>I lost an item</option><option>I found an item</option></select>
+    </div>
+    <div class="form-row"><label class="form-label" for="lfItem">Item description</label><input class="form-input" id="lfItem" type="text" placeholder="e.g. Black Wildcraft backpack with blue zipper"/></div>
+    <div class="form-row"><label class="form-label" for="lfLocation">Location</label><input class="form-input" id="lfLocation" type="text" placeholder="e.g. Near Gate 2, Tirupati Balaji Temple"/></div>
+    <div class="form-row"><label class="form-label" for="lfContact">Your mobile number</label><input class="form-input" id="lfContact" type="tel" placeholder="+91 98765 43210"/></div>
+    <button class="btn-gold" id="submitLostFound" style="width:100%;margin-top:6px">Submit report</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg"></span></div>
+
+<script src="js/main.js"></script>
+<script>
+  (function () {
+    var raw = sessionStorage.getItem('dy_pilgrim_session');
+    if (raw) { try { var sess = JSON.parse(raw); var el = document.getElementById('pilgrimGreeting'); if (el && sess.name) el.textContent = 'Namaste, ' + sess.name.split(' ')[0]; } catch (e) {} }
+  })();
+  function pilgrimLogout() { sessionStorage.removeItem('dy_pilgrim_session'); window.location.replace('pilgrim-login.html'); }
+  function showToast(icon, msg, dur) {
+    dur = dur || 3000;
+    var t = document.getElementById('toast');
+    t.querySelector('i').className = 'ti ' + icon;
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(function () { t.classList.remove('show'); }, dur);
+  }
+  document.querySelectorAll('.filter-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      document.querySelectorAll('.filter-chip').forEach(function(c){c.classList.remove('active')});
+      chip.classList.add('active');
+    });
+  });
+  var subnavLinks = document.querySelectorAll('.subnav a');
+  var sections = Array.from(subnavLinks).map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  window.addEventListener('scroll', function(){
+    var pos = window.scrollY + 140;
+    sections.forEach(function(sec, i){
+      if (sec && pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+        subnavLinks.forEach(function(l){l.classList.remove('active')});
+        subnavLinks[i].classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>

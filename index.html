@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script>
+  // ── AUTH GUARD: block access unless a pilgrim session exists ──
+  (function () {
+    var session = sessionStorage.getItem('dy_pilgrim_session');
+    if (!session) {
+      window.location.replace('pilgrim-login.html?redirect=index.html');
+    }
+  })();
+</script>
+<meta name="description" content="DivyaYatra — India's smartest temple pilgrimage and crowd management platform. Book darshan slots, track live crowds, plan routes, and stay safe."/>
+<meta name="keywords" content="temple pilgrimage, darshan booking, crowd management, tirupati, kashi, meenakshi, virtual darshan, India temples"/>
+<meta name="author" content="DivyaYatra"/>
+<meta property="og:title" content="DivyaYatra — Temple Pilgrimage & Crowd Management"/>
+<meta property="og:description" content="Plan your darshan. Skip the chaos. Real-time crowd tracking, smart slot booking, and guided pilgrimage planning."/>
+<meta property="og:type" content="website"/>
+<title>DivyaYatra — Temple Pilgrimage & Crowd Management</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+<style>
+  /* ── EXTRA PAGE-SPECIFIC STYLES ── */
+  .festive-bar {
+    background: rgba(212,175,55,0.1);
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+    padding: 8px 48px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .festive-bar i { color: #D4AF37; font-size: 14px; flex-shrink: 0; }
+  #festiveTicker { color: rgba(255,255,255,0.65); font-size: 12px; font-family: sans-serif; flex: 1; }
+
+  .search-wrap {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 28px;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 10px; padding: 10px 16px; max-width: 420px;
+  }
+  .search-wrap i { color: rgba(255,255,255,0.4); font-size: 18px; flex-shrink: 0; }
+  #templeSearch {
+    background: none; border: none; outline: none;
+    color: #fff; font-size: 13px; font-family: sans-serif; flex: 1;
+  }
+  #templeSearch::placeholder { color: rgba(255,255,255,0.28); }
+
+  /* DONATION AMOUNTS */
+  .donation-grid { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 20px; }
+  .donation-amt {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px; padding: 9px 18px; color: rgba(255,255,255,0.65);
+    font-size: 13px; font-family: sans-serif; cursor: pointer; transition: all 0.2s;
+  }
+  .donation-amt:hover, .donation-amt.selected { background: rgba(212,175,55,0.18); border-color: rgba(212,175,55,0.5); color: #D4AF37; }
+
+  /* BACK TO TOP */
+  #backToTop {
+    position: fixed; bottom: 24px; left: 28px; z-index: 999;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(212,175,55,0.9); color: #1a0f00;
+    border: none; font-size: 18px; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  #backToTop:hover { background: #D4AF37; }
+
+  /* SECTION DIVIDER ORNAMENT */
+  .ornament {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; padding: 20px 0;
+  }
+  .ornament::before, .ornament::after {
+    content: ''; display: block; height: 1px; width: 80px;
+    background: linear-gradient(to right, transparent, rgba(212,175,55,0.4));
+  }
+  .ornament::after { background: linear-gradient(to left, transparent, rgba(212,175,55,0.4)); }
+  .ornament i { color: rgba(212,175,55,0.6); font-size: 16px; }
+
+  /* PAGE SECTION LABELS */
+  .page-anchor { scroll-margin-top: 80px; }
+</style>
+</head>
+<body>
+
+<!-- ── SCROLL PROGRESS ── -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ── BACK TO TOP ── -->
+<button id="backToTop" aria-label="Back to top"><i class="ti ti-chevron-up"></i></button>
+
+<!-- ════════════════════════════════
+     FESTIVE TICKER
+════════════════════════════════ -->
+<div class="festive-bar">
+  <i class="ti ti-calendar-event"></i>
+  <span id="festiveTicker">Loading festival alerts...</span>
+</div>
+
+<!-- ════════════════════════════════
+     NAVIGATION
+════════════════════════════════ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="logo">
+    <div class="logo-sym"><i class="ti ti-building-temple" aria-hidden="true"></i></div>
+    <div>
+      <div class="logo-text">DivyaYatra</div>
+      <div class="logo-sub">Pilgrimage &amp; Crowd Management</div>
+    </div>
+  </div>
+  <div class="nav-links" role="menubar">
+    <a href="crowd.html" role="menuitem">Live Crowd</a>
+    <a href="booking.html" role="menuitem">Book Darshan</a>
+    <a href="temples.html" role="menuitem">Temples</a>
+    <a href="planner.html" role="menuitem">Planner</a>
+    <a href="darshan.html" role="menuitem">Virtual Darshan</a>
+    <a href="reviews.html" role="menuitem">Reviews</a>
+    <a href="sos.html" role="menuitem">SOS</a>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+      <i class="ti ti-menu-2"></i>
+    </button>
+    <span id="pilgrimGreeting" style="color:rgba(255,255,255,0.55);font-size:12px;font-family:sans-serif"></span>
+    <button class="nav-cta" id="logoutBtn" onclick="pilgrimLogout()" style="background:transparent;border:1px solid rgba(212,175,55,0.4);color:#D4AF37">Sign Out</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════
+     HERO
+════════════════════════════════ -->
+<section class="hero page-anchor" id="home" aria-label="Hero section">
+  <div class="hero-bg" role="img" aria-label="Temple gopuram background"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">India's Pilgrimage Platform</div>
+    <h1>Plan your darshan.<br><em>Skip the chaos.</em></h1>
+    <p>Real-time crowd tracking, smart slot booking, virtual darshan, and guided pilgrimage planning — all in one sacred space.</p>
+    <div class="hero-btns">
+      <a href="booking.html" class="btn-gold" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+        <i class="ti ti-calendar-check"></i> Book Darshan Slot
+      </a>
+      <a href="temples.html" class="btn-ghost" style="text-decoration:none;display:inline-flex;align-items:center">
+        Explore Temples →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<div class="stats-bar" role="region" aria-label="Platform statistics">
+  <div class="stat"><div class="stat-num">1,240+</div><div class="stat-lbl">Temples Listed</div></div>
+  <div class="stat"><div class="stat-num">48 Lakh+</div><div class="stat-lbl">Pilgrims Served</div></div>
+  <div class="stat"><div class="stat-num">Live</div><div class="stat-lbl">Crowd Feeds</div></div>
+  <div class="stat"><div class="stat-num">₹0</div><div class="stat-lbl">Booking Fee</div></div>
+  <div class="stat"><div class="stat-num">24/7</div><div class="stat-lbl">Alerts Active</div></div>
+</div>
+
+<!-- ════════════════════════════════
+     FEATURE HUB — links to standalone pages
+════════════════════════════════ -->
+<section class="sec" id="features" aria-label="Platform features">
+  <div class="sec-bg" style="background-image:url('https://images.unsplash.com/photo-1600093112218-4fcb48bb1fc5?w=1600&q=85')"></div>
+  <div class="sec-ov" style="background:rgba(3,2,8,0.91)"></div>
+  <div class="sec-in">
+    <div class="eyebrow">Everything you need</div>
+    <div class="sec-h">Your complete <span class="gold">pilgrimage companion</span></div>
+    <div class="sec-sub">Seven powerful tools built for the modern pilgrim. Tap any card to explore the full experience.</div>
+    <div class="feat-grid" role="list">
+      <a href="crowd.html" class="feat-card" role="listitem" style="text-decoration:none;display:block">
+        <div class="feat-icon-wrap"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+        <div class="feat-title">Live Crowd Dashboard</div>
+        <div class="feat-desc">Real-time capacity, wait times, and gate-wise breakdowns for every major temple.</div>
+      </a>
+      <a href="booking.html" class="feat-card" role="listitem" style="text-decoration:none;display:block">
+        <div class="feat-icon-wrap"><i class="ti ti-calendar-check" aria-hidden="true"></i></div>
+        <div class="feat-title">Smart Darshan Booking</div>
+        <div class="feat-desc">Reserve time slots, get QR-coded entry passes, and skip serpentine queues.</div>
+      </a>
+      <a href="temples.html" class="feat-card" role="listitem" style="text-decoration:none;display:block">
+        <div class="feat-icon-wrap"><i class="ti ti-building-community" aria-hidden="true"></i></div>
+        <div class="feat-title">Temple Directory</div>
+        <div class="feat-desc">1,240+ temples with history, deity info, dress code, and accessibility details.</div>
+      </a>
+      <a href="planner.html" class="feat-card" role="listitem" style="text-decoration:none;display:block">
+        <div class="feat-icon-wrap"><i class="ti ti-map-route" aria-hidden="true"></i></div>
+        <div class="feat-title">Pilgrimage Route Planner</div>
+        <div class="feat-desc">Build multi-temple itineraries with travel time, stays, and prasad stops.</div>
+      </a>
+      <a href="darshan.html" class="feat-card" role="listitem" style="text-decoration:none;display:block">
+        <div class="feat-icon-wrap"><i class="ti ti-video" aria-hidden="true"></i></div>
+        <div class="feat-title">Virtual Darshan</div>
+        <div class="feat-desc">Live-stream aarti, pujas, and temple rituals in HD from anywhere in the world.</div>
+      </a>
+      <a href="reviews.html" class="feat-card" role="listitem" style="text-decoration:none;display:block">
+        <div class="feat-icon-wrap"><i class="ti ti-star" aria-hidden="true"></i></div>
+        <div class="feat-title">Reviews &amp; Community</div>
+        <div class="feat-desc">Honest pilgrim experiences, insider tips, and a community-driven rating system.</div>
+      </a>
+      <a href="sos.html" class="feat-card" role="listitem" style="text-decoration:none;display:block">
+        <div class="feat-icon-wrap"><i class="ti ti-sos" aria-hidden="true"></i></div>
+        <div class="feat-title">SOS &amp; Lost &amp; Found</div>
+        <div class="feat-desc">One-tap emergency SOS and a community-powered lost &amp; found portal.</div>
+      </a>
+      <div class="feat-card" role="listitem" style="opacity:0.5">
+        <div class="feat-icon-wrap"><i class="ti ti-heart-handshake" aria-hidden="true"></i></div>
+        <div class="feat-title">Seva &amp; Donations</div>
+        <div class="feat-desc">Coming soon — book archana and abhishek online with digital receipts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ════════════════════════════════
+     WHY DIVYAYATRA — trust strip
+════════════════════════════════ -->
+<section class="sec" aria-label="Why choose DivyaYatra">
+  <div class="sec-bg" style="background-image:url('https://images.unsplash.com/photo-1610020408974-c8e3fcde7ade?w=1600&q=85')"></div>
+  <div class="sec-ov" style="background:rgba(5,2,0,0.89)"></div>
+  <div class="sec-in">
+    <div class="eyebrow">Trusted by pilgrims nationwide</div>
+    <div class="sec-h">Why pilgrims choose <span class="gold">DivyaYatra</span></div>
+    <div class="crowd-grid">
+      <div class="crowd-card" style="padding:22px 20px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div class="rv-stars" style="margin-bottom:0">★★★★★</div>
+        </div>
+        <div class="temple-name" style="font-size:22px;margin-bottom:4px">4.8 / 5</div>
+        <div class="temple-loc">From 28,400+ pilgrim reviews</div>
+      </div>
+      <div class="crowd-card" style="padding:22px 20px">
+        <div class="temple-name" style="font-size:22px;margin-bottom:4px">48 Lakh+</div>
+        <div class="temple-loc">Pilgrims served across India this year</div>
+      </div>
+      <div class="crowd-card" style="padding:22px 20px">
+        <div class="temple-name" style="font-size:22px;margin-bottom:4px">Zero</div>
+        <div class="temple-loc">Booking commission — always free for pilgrims</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px">
+      <a href="booking.html" class="btn-gold" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+        <i class="ti ti-calendar-check"></i> Start Booking Your Darshan
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">DivyaYatra</div>
+      <div class="footer-brand-sub">Pilgrimage &amp; Crowd Management</div>
+      <div class="footer-brand-desc">India's most trusted platform for temple pilgrimage planning, real-time crowd management, and sacred journey guidance.</div>
+    </div>
+    <div class="footer-col" role="navigation" aria-label="Pilgrims links">
+      <div class="footer-col-title">Pilgrims</div>
+      <a href="booking.html">Book darshan slot</a>
+      <a href="temples.html">Explore temples</a>
+      <a href="planner.html">Route planner</a>
+      <a href="darshan.html">Virtual darshan</a>
+      <a href="crowd.html">Crowd alerts</a>
+    </div>
+    <div class="footer-col" role="navigation" aria-label="Services links">
+      <div class="footer-col-title">Services</div>
+      <a href="#">Seva &amp; donations</a>
+      <a href="#">Prasad delivery</a>
+      <a href="#">Accommodation</a>
+      <a href="#">Facilities tracker</a>
+      <a href="sos.html">SOS &amp; lost found</a>
+    </div>
+    <div class="footer-col" role="navigation" aria-label="Authorities links">
+      <div class="footer-col-title">Authorities</div>
+      <a href="admin-login.html">Temple authority login</a>
+      <a href="admin-login.html">Admin dashboard</a>
+      <a href="#">Gate control</a>
+      <a href="#">Staff management</a>
+      <a href="#">Crowd analytics</a>
+    </div>
+    <div class="footer-col" role="navigation" aria-label="Company links">
+      <div class="footer-col-title">Company</div>
+      <a href="#">About DivyaYatra</a>
+      <a href="#">Contact us</a>
+      <a href="#">Privacy policy</a>
+      <a href="#">Terms of service</a>
+      <a href="#">Help &amp; support</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 DivyaYatra. All rights reserved. Made with devotion for every pilgrim.</div>
+    <div class="footer-badges">
+      <div class="fbadge">Available on iOS</div>
+      <div class="fbadge">Available on Android</div>
+      <div class="fbadge">12 Languages</div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // ── SESSION: show pilgrim greeting, wire logout ──
+  (function () {
+    var raw = sessionStorage.getItem('dy_pilgrim_session');
+    if (raw) {
+      try {
+        var sess = JSON.parse(raw);
+        var el = document.getElementById('pilgrimGreeting');
+        if (el && sess.name) el.textContent = 'Namaste, ' + sess.name.split(' ')[0];
+      } catch (e) {}
+    }
+  })();
+  function pilgrimLogout() {
+    sessionStorage.removeItem('dy_pilgrim_session');
+    window.location.replace('pilgrim-login.html');
+  }
+</script>
+</body>
+</html>

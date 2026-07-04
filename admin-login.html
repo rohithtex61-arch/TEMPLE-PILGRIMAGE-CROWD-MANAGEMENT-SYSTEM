@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DivyaYatra — Temple Authority Login</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Georgia',serif}
+:root{
+  --gold:#D4AF37;
+  --gold-dim:rgba(212,175,55,0.35);
+  --gold-faint:rgba(212,175,55,0.1);
+  --card-border:rgba(212,175,55,0.2);
+  --white-60:rgba(255,255,255,0.6);
+  --white-40:rgba(255,255,255,0.4);
+}
+html,body{height:100%;background:#070502}
+
+/* ── BG ── */
+.page-bg{position:fixed;inset:0;background-image:url('https://images.unsplash.com/photo-1567595350098-30b52250c786?w=1600&q=85');background-size:cover;background-position:center;z-index:0}
+.page-overlay{position:fixed;inset:0;background:linear-gradient(135deg,rgba(4,3,1,0.95) 0%,rgba(4,3,1,0.82) 100%);z-index:1}
+
+/* ── LAYOUT ── */
+.page{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
+
+/* ── LEFT PANEL ── */
+.left{display:flex;flex-direction:column;justify-content:center;padding:60px 56px;border-right:1px solid var(--card-border)}
+.back-link{display:inline-flex;align-items:center;gap:7px;color:var(--white-40);font-size:12px;font-family:sans-serif;letter-spacing:.3px;margin-bottom:48px;transition:color .2s;text-decoration:none}
+.back-link:hover{color:var(--gold)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.brand-sym{width:44px;height:44px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:20px}
+.brand-text{color:#fff;font-size:18px;letter-spacing:.5px}
+.brand-sub{color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-family:sans-serif;margin-top:2px}
+.security-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,175,55,0.08);border:1px solid var(--card-border);border-radius:20px;padding:6px 14px;margin-top:20px;margin-bottom:8px;width:fit-content}
+.security-badge i{color:var(--gold);font-size:14px}
+.security-badge span{color:var(--gold);font-size:10px;letter-spacing:1px;text-transform:uppercase;font-family:sans-serif;font-weight:600}
+.left-heading{color:#fff;font-size:32px;font-weight:400;line-height:1.25;margin-bottom:12px;margin-top:20px}
+.left-heading em{color:var(--gold);font-style:normal}
+.left-desc{color:var(--white-40);font-size:13px;font-family:sans-serif;line-height:1.75;max-width:360px;margin-bottom:40px}
+.perks{display:flex;flex-direction:column;gap:14px}
+.perk{display:flex;align-items:center;gap:12px}
+.perk-icon{width:36px;height:36px;border-radius:8px;background:var(--gold-faint);border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:17px;flex-shrink:0}
+.perk-text .pt{color:#fff;font-size:12px;font-family:sans-serif}
+.perk-text .ps{color:var(--white-40);font-size:11px;font-family:sans-serif;margin-top:1px}
+.switch-link{margin-top:48px;padding-top:32px;border-top:1px solid var(--card-border)}
+.switch-link p{color:var(--white-40);font-size:12px;font-family:sans-serif;margin-bottom:10px}
+.switch-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.04);border:1px solid var(--card-border);border-radius:8px;padding:10px 18px;color:#fff;font-size:12px;font-family:sans-serif;cursor:pointer;text-decoration:none;transition:border-color .2s,background .2s}
+.switch-btn:hover{border-color:var(--gold);background:var(--gold-faint)}
+.switch-btn i{color:var(--gold);font-size:16px}
+
+/* ── RIGHT PANEL ── */
+.right{display:flex;flex-direction:column;justify-content:center;padding:60px 56px}
+.form-header{margin-bottom:8px}
+.form-header h2{color:#fff;font-size:24px;font-weight:400;margin-bottom:6px}
+.form-header p{color:var(--white-40);font-size:13px;font-family:sans-serif;line-height:1.6}
+.access-note{display:flex;align-items:flex-start;gap:10px;background:rgba(212,175,55,0.06);border:1px solid var(--card-border);border-radius:9px;padding:12px 14px;margin:20px 0 28px}
+.access-note i{color:var(--gold);font-size:16px;flex-shrink:0;margin-top:1px}
+.access-note p{color:var(--white-40);font-size:11px;font-family:sans-serif;line-height:1.6}
+.access-note strong{color:var(--gold)}
+
+.form-group{margin-bottom:18px}
+.form-label{display:block;color:var(--white-40);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;font-family:sans-serif;margin-bottom:7px}
+.form-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:9px;padding:13px 16px;color:#fff;font-size:13px;font-family:sans-serif;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--gold-dim)}
+.form-input::placeholder{color:rgba(255,255,255,0.22)}
+.input-wrap{position:relative}
+.input-wrap .form-input{padding-left:44px}
+.input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);font-size:18px;pointer-events:none}
+.input-action{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:11px;font-family:sans-serif;cursor:pointer;letter-spacing:.3px;font-weight:600}
+.input-action:hover{opacity:.8}
+
+/* TEMPLE SELECT */
+.temple-select-wrap{position:relative}
+.temple-select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:9px;padding:13px 16px 13px 44px;color:#fff;font-size:13px;font-family:sans-serif;outline:none;appearance:none;cursor:pointer;transition:border-color .2s}
+.temple-select:focus{border-color:var(--gold-dim)}
+.select-chevron{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);font-size:16px;pointer-events:none}
+
+.forgot{color:var(--gold);font-size:11px;font-family:sans-serif;cursor:pointer;display:block;text-align:right;margin-top:-10px;margin-bottom:20px}
+.forgot:hover{opacity:.8}
+
+/* OTP BOXES */
+.otp-group{display:flex;gap:10px;margin-bottom:6px}
+.otp-input{flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:9px;padding:14px 0;color:#fff;font-size:20px;font-family:'Georgia',serif;text-align:center;outline:none;transition:border-color .2s}
+.otp-input:focus{border-color:var(--gold-dim)}
+.otp-hint{color:var(--white-40);font-size:11px;font-family:sans-serif;margin-bottom:18px}
+.otp-hint span{color:var(--gold);cursor:pointer}
+
+/* SUBMIT */
+.submit-btn{width:100%;background:var(--gold);color:#1a0f00;border:none;border-radius:9px;padding:14px;font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;font-family:sans-serif;cursor:pointer;transition:opacity .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:hover{opacity:.88}
+.submit-btn .btn-loader{display:none;width:18px;height:18px;border:2px solid rgba(26,15,0,0.3);border-top-color:#1a0f00;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 2FA SECTION */
+.twofa-box{display:none;text-align:center;padding:8px 0 20px}
+.twofa-icon{width:56px;height:56px;border-radius:50%;background:rgba(212,175,55,0.12);border:1.5px solid rgba(212,175,55,0.4);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:26px;margin:0 auto 14px}
+.twofa-title{color:#fff;font-size:15px;font-family:'Georgia',serif;margin-bottom:6px}
+.twofa-desc{color:var(--white-40);font-size:12px;font-family:sans-serif;line-height:1.6}
+.twofa-desc span{color:var(--gold)}
+
+.signup-row{text-align:center;margin-top:20px;color:var(--white-40);font-size:12px;font-family:sans-serif}
+.signup-row a{color:var(--gold);cursor:pointer}
+.signup-row a:hover{opacity:.8}
+
+.form-section{display:none}
+.form-section.active{display:block}
+
+/* ROLE BADGES */
+.role-tabs{display:flex;gap:8px;margin-bottom:28px}
+.role-tab{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:12px;text-align:center;cursor:pointer;transition:all .2s}
+.role-tab.active{background:rgba(212,175,55,0.12);border-color:var(--gold-dim)}
+.role-tab i{display:block;font-size:20px;color:rgba(255,255,255,0.4);margin-bottom:6px}
+.role-tab.active i{color:var(--gold)}
+.role-tab-label{color:rgba(255,255,255,0.5);font-size:11px;font-family:sans-serif;font-weight:600}
+.role-tab.active .role-tab-label{color:#fff}
+.role-tab-sub{color:rgba(255,255,255,0.3);font-size:9px;font-family:sans-serif;margin-top:2px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;background:rgba(7,5,2,0.97);border:1px solid var(--gold-dim);border-radius:10px;padding:13px 18px;display:flex;align-items:center;gap:9px;color:#fff;font-size:13px;font-family:sans-serif;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translateY(20px);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast i{color:var(--gold);font-size:17px;flex-shrink:0}
+
+/* SESSION INFO STRIP */
+.session-strip{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 14px;margin-top:24px}
+.session-strip-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,0.3);font-size:10px;font-family:sans-serif}
+.session-strip-item i{font-size:13px;color:rgba(212,175,55,0.5)}
+
+@media(max-width:768px){
+  .page{grid-template-columns:1fr}
+  .left{display:none}
+  .right{padding:40px 24px;min-height:100vh}
+}
+</style>
+</head>
+<body>
+
+<div class="page-bg"></div>
+<div class="page-overlay"></div>
+
+<div class="page">
+  <!-- ═══════════ LEFT PANEL ═══════════ -->
+  <div class="left">
+    <a href="index.html" class="back-link"><i class="ti ti-arrow-left"></i> Back to home</a>
+
+    <div class="brand">
+      <div class="brand-sym"><i class="ti ti-shield-lock"></i></div>
+      <div><div class="brand-text">DivyaYatra</div><div class="brand-sub">Temple Authority Portal</div></div>
+    </div>
+
+    <div class="security-badge"><i class="ti ti-lock"></i><span>Restricted access · Authorized personnel only</span></div>
+
+    <div class="left-heading">Manage your temple<br>with <em>complete control.</em></div>
+    <div class="left-desc">Sign in to access crowd analytics, gate controls, staff deployment, and emergency broadcast systems for your temple.</div>
+
+    <div class="perks">
+      <div class="perk">
+        <div class="perk-icon"><i class="ti ti-chart-bar"></i></div>
+        <div class="perk-text"><div class="pt">Real-time crowd analytics</div><div class="ps">Live pilgrim count, wait times, and capacity</div></div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon"><i class="ti ti-door-enter"></i></div>
+        <div class="perk-text"><div class="pt">Gate & entry control</div><div class="ps">Open, close, or restrict gates instantly</div></div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon"><i class="ti ti-users-group"></i></div>
+        <div class="perk-text"><div class="pt">Staff deployment</div><div class="ps">Assign personnel to zones in real time</div></div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon"><i class="ti ti-broadcast"></i></div>
+        <div class="perk-text"><div class="pt">Emergency broadcasts</div><div class="ps">Alert all pilgrims instantly during incidents</div></div>
+      </div>
+    </div>
+
+    <div class="switch-link">
+      <p>Are you a pilgrim?</p>
+      <a href="pilgrim-login.html" class="switch-btn">
+        <i class="ti ti-user"></i> Go to Pilgrim Login →
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════ RIGHT PANEL ═══════════ -->
+  <div class="right">
+    <!-- ROLE SELECTOR -->
+    <div class="role-tabs">
+      <div class="role-tab active" id="role-temple" onclick="switchRole('temple')">
+        <i class="ti ti-building-temple"></i>
+        <div class="role-tab-label">Temple Admin</div>
+        <div class="role-tab-sub">Gate & crowd control</div>
+      </div>
+      <div class="role-tab" id="role-super" onclick="switchRole('super')">
+        <i class="ti ti-crown"></i>
+        <div class="role-tab-label">Super Admin</div>
+        <div class="role-tab-sub">Multi-temple oversight</div>
+      </div>
+    </div>
+
+    <!-- ═══ LOGIN FORM ═══ -->
+    <div class="form-section active" id="section-creds">
+      <div class="form-header">
+        <h2 id="formTitle">Temple authority sign in</h2>
+        <p id="formSub">Enter your official credentials to access the dashboard.</p>
+      </div>
+
+      <div class="access-note">
+        <i class="ti ti-info-circle"></i>
+        <p>This portal is for <strong>verified temple staff and trustees only</strong>. Unauthorized access attempts are logged and reported.</p>
+      </div>
+
+      <div class="form-group" id="templeSelectGroup">
+        <label class="form-label">Select your temple</label>
+        <div class="temple-select-wrap input-wrap">
+          <i class="ti ti-building-temple input-icon"></i>
+          <select class="temple-select" id="adminTemple">
+            <option value="">Choose temple</option>
+            <option>Tirupati Balaji Temple — Tirumala, AP</option>
+            <option>Kashi Vishwanath Temple — Varanasi, UP</option>
+            <option>Siddhivinayak Temple — Mumbai, MH</option>
+            <option>Meenakshi Amman Temple — Madurai, TN</option>
+            <option>Golden Temple — Amritsar, PB</option>
+            <option>Kedarnath Temple — Rudraprayag, UK</option>
+          </select>
+          <i class="ti ti-chevron-down select-chevron"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Staff ID / Employee email</label>
+        <div class="input-wrap">
+          <i class="ti ti-id-badge-2 input-icon"></i>
+          <input class="form-input" id="adminId" type="text" placeholder="e.g. TBT-2024-0142 or staff@divyayatra.gov.in"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrap">
+          <i class="ti ti-lock input-icon"></i>
+          <input class="form-input" id="adminPass" type="password" placeholder="Enter your secure password"/>
+          <span class="input-action" onclick="togglePass('adminPass', this)">Show</span>
+        </div>
+      </div>
+
+      <div class="forgot" onclick="forgotPassword()">Forgot password? Contact IT support</div>
+
+      <button class="submit-btn" onclick="adminLogin()">
+        <div class="btn-loader" id="credLoader"></div>
+        <i class="ti ti-shield-lock" id="credIcon"></i> Continue to verification
+      </button>
+
+      <div class="session-strip">
+        <div class="session-strip-item"><i class="ti ti-clock"></i> Session expires in 8 hrs</div>
+        <div class="session-strip-item"><i class="ti ti-map-pin"></i> IP logged for security</div>
+      </div>
+    </div>
+
+    <!-- ═══ 2FA VERIFICATION ═══ -->
+    <div class="form-section" id="section-2fa">
+      <div class="twofa-box" style="display:block">
+        <div class="twofa-icon"><i class="ti ti-device-mobile-message"></i></div>
+        <div class="twofa-title">Two-factor authentication</div>
+        <div class="twofa-desc">Enter the 6-digit code sent to your registered mobile<br><span id="fa2Target"></span></div>
+      </div>
+
+      <div class="form-group">
+        <div class="otp-group">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,0)"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,1)"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,2)"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,3)"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,4)"/>
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric" oninput="otpMove(this,5)"/>
+        </div>
+        <div class="otp-hint">Didn't receive? <span onclick="resendOTP()">Resend code</span> <span id="otpTimer" style="color:rgba(255,255,255,0.3)"></span></div>
+      </div>
+
+      <button class="submit-btn" onclick="verify2FA()">
+        <div class="btn-loader" id="faLoader"></div>
+        <i class="ti ti-shield-check" id="faIcon"></i> Verify & access dashboard
+      </button>
+
+      <div style="text-align:center;margin-top:14px"><span style="color:var(--gold);font-size:12px;font-family:sans-serif;cursor:pointer" onclick="back2FA()">← Back to login</span></div>
+
+      <div class="access-note" style="margin-top:24px">
+        <i class="ti ti-shield-exclamation"></i>
+        <p>If you did not request this code, <strong>do not share it</strong> with anyone and contact temple IT security immediately.</p>
+      </div>
+    </div>
+
+    <div class="signup-row">New temple authority? <a onclick="requestAccess()">Request portal access →</a></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg"></span></div>
+
+<script>
+let selectedRole = 'temple';
+
+function toast(icon, msg, dur=3000){
+  const t=document.getElementById('toast');
+  t.querySelector('i').className='ti '+icon;
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+function togglePass(id, btn){
+  const inp=document.getElementById(id);
+  const show=inp.type==='password';
+  inp.type=show?'text':'password';
+  btn.textContent=show?'Hide':'Show';
+}
+
+// ── ROLE SWITCH ──
+function switchRole(role){
+  selectedRole = role;
+  document.getElementById('role-temple').classList.toggle('active', role==='temple');
+  document.getElementById('role-super').classList.toggle('active', role==='super');
+  const title = document.getElementById('formTitle');
+  const sub = document.getElementById('formSub');
+  const templeGroup = document.getElementById('templeSelectGroup');
+  if(role==='temple'){
+    title.textContent='Temple authority sign in';
+    sub.textContent='Enter your official credentials to access the dashboard.';
+    templeGroup.style.display='block';
+  } else {
+    title.textContent='Super admin sign in';
+    sub.textContent='Multi-temple oversight access — highest clearance level.';
+    templeGroup.style.display='none';
+  }
+}
+
+// ── CREDENTIALS LOGIN ──
+function adminLogin(){
+  const temple=document.getElementById('adminTemple').value;
+  const id=document.getElementById('adminId').value.trim();
+  const pass=document.getElementById('adminPass').value;
+
+  if(selectedRole==='temple' && !temple){toast('ti-alert-circle','Please select your temple.');return;}
+  if(!id||!pass){toast('ti-alert-circle','Please enter your Staff ID and password.');return;}
+
+  document.getElementById('credLoader').style.display='block';
+  document.getElementById('credIcon').style.display='none';
+
+  setTimeout(()=>{
+    document.getElementById('credLoader').style.display='none';
+    document.getElementById('credIcon').style.display='';
+    document.getElementById('section-creds').classList.remove('active');
+    document.getElementById('section-2fa').classList.add('active');
+    document.getElementById('fa2Target').textContent='+91 XXXXX XX'+Math.floor(10+Math.random()*89);
+    toast('ti-device-mobile-message','Verification code sent to your registered mobile.');
+    startOTPTimer();
+    document.querySelectorAll('#section-2fa .otp-input')[0].focus();
+  },1600);
+}
+
+// ── OTP TIMER ──
+let otpTimerInt;
+function startOTPTimer(){
+  let sec=30;
+  clearInterval(otpTimerInt);
+  const el=document.getElementById('otpTimer');
+  el.textContent='(Resend in '+sec+'s)';
+  otpTimerInt=setInterval(()=>{
+    sec--;
+    if(sec<=0){clearInterval(otpTimerInt);el.textContent='';} else el.textContent='(Resend in '+sec+'s)';
+  },1000);
+}
+function resendOTP(){toast('ti-send','Verification code resent.');startOTPTimer();}
+
+function back2FA(){
+  document.getElementById('section-2fa').classList.remove('active');
+  document.getElementById('section-creds').classList.add('active');
+}
+
+// ── OTP MOVEMENT ──
+function otpMove(inp, idx){
+  const inputs=[...inp.closest('.otp-group').querySelectorAll('.otp-input')];
+  if(inp.value&&idx<5) inputs[idx+1].focus();
+}
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Backspace'&&e.target.classList.contains('otp-input')){
+    const inputs=[...e.target.closest('.otp-group').querySelectorAll('.otp-input')];
+    const idx=inputs.indexOf(e.target);
+    if(!e.target.value&&idx>0) inputs[idx-1].focus();
+  }
+});
+
+// ── VERIFY 2FA ──
+function verify2FA(){
+  const otp=[...document.querySelectorAll('#section-2fa .otp-input')].map(i=>i.value).join('');
+  if(otp.length<6){toast('ti-alert-circle','Please enter the 6-digit verification code.');return;}
+
+  document.getElementById('faLoader').style.display='block';
+  document.getElementById('faIcon').style.display='none';
+
+  setTimeout(()=>{
+    document.getElementById('faLoader').style.display='none';
+    document.getElementById('faIcon').style.display='';
+    const temple=document.getElementById('adminTemple').value || 'Multi-Temple Oversight';
+    const id=document.getElementById('adminId').value.trim();
+    sessionStorage.setItem('dy_admin_session', JSON.stringify({
+      staffId: id,
+      role: selectedRole,
+      temple: temple,
+      loggedInAt: Date.now()
+    }));
+    toast('ti-circle-check','Access granted! Loading admin dashboard...', 2000);
+    setTimeout(()=>{window.location.href='admin-dashboard.html';},2000);
+  },1800);
+}
+
+function forgotPassword(){toast('ti-mail','Password reset request sent to temple IT department.', 4000);}
+function requestAccess(){toast('ti-mail-forward','Access request form will be sent to your registered email.', 4000);}
+</script>
+</body>
+</html>

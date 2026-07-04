@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Plan multi-temple pilgrimage routes across India with travel time, accommodation, and visiting-hour suggestions."/>
+<title>Pilgrimage Route Planner — DivyaYatra</title>
+<script>
+  (function () {
+    if (!sessionStorage.getItem('dy_pilgrim_session')) {
+      window.location.replace('pilgrim-login.html?redirect=planner.html');
+    }
+  })();
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<button id="backToTop" aria-label="Back to top"><i class="ti ti-chevron-up"></i></button>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a href="index.html" class="logo" style="text-decoration:none">
+    <div class="logo-sym"><i class="ti ti-building-temple" aria-hidden="true"></i></div>
+    <div><div class="logo-text">DivyaYatra</div><div class="logo-sub">Pilgrimage &amp; Crowd Management</div></div>
+  </a>
+  <div class="nav-links" role="menubar">
+    <a href="crowd.html">Live Crowd</a>
+    <a href="booking.html">Book Darshan</a>
+    <a href="temples.html">Temples</a>
+    <a href="planner.html" class="active">Planner</a>
+    <a href="darshan.html">Virtual Darshan</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="sos.html">SOS</a>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle menu"><i class="ti ti-menu-2"></i></button>
+    <span id="pilgrimGreeting" style="color:rgba(255,255,255,0.55);font-size:12px;font-family:sans-serif"></span>
+    <button class="nav-cta" onclick="pilgrimLogout()" style="background:transparent;border:1px solid rgba(212,175,55,0.4);color:#D4AF37">Sign Out</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1506461883276-594a12b11cf3?w=1600&q=85')"></div>
+  <div class="page-hero-ov" style="background:linear-gradient(to bottom, rgba(4,2,10,0.6), rgba(4,2,10,0.93))"></div>
+  <div class="page-hero-in">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span class="current">Route Planner</span></div>
+    <h1>Plan your <em>sacred journey</em></h1>
+    <p>Build a multi-temple itinerary with travel time, best visiting hours, and accommodation stops — or choose from curated pilgrimage circuits.</p>
+    <div class="page-hero-stats">
+      <div class="phs-item"><div class="phs-num">6</div><div class="phs-lbl">Curated circuits</div></div>
+      <div class="phs-item"><div class="phs-num">45+</div><div class="phs-lbl">Temples in route library</div></div>
+      <div class="phs-item"><div class="phs-num">Free</div><div class="phs-lbl">Custom route building</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <a href="#my-route" class="active">Your Route</a>
+  <a href="#curated">Curated Circuits</a>
+  <a href="#planning-tips">Planning Tips</a>
+  <a href="#faq">FAQ</a>
+</div>
+
+<!-- MY ROUTE -->
+<section class="content-sec" id="my-route">
+  <div class="content-sec-in">
+    <div class="eyebrow">Active itinerary</div>
+    <div class="sec-h" style="color:#fff">Your route — 5 days · South India</div>
+    <div class="route-grid">
+      <div>
+        <div class="route-panel">
+          <div style="color:rgba(255,255,255,0.38);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;font-family:sans-serif;margin-bottom:18px">South India temple circuit</div>
+          <div class="route-step">
+            <div class="step-line"><div class="step-dot">1</div><div class="step-conn"></div></div>
+            <div class="step-info"><div class="sname">Tirupati Balaji Temple</div><div class="smeta">Day 1 · Arrive 6 AM · Stay overnight<br>~4 hrs darshan · Book slot in advance</div></div>
+          </div>
+          <div class="route-step">
+            <div class="step-line"><div class="step-dot">2</div><div class="step-conn"></div></div>
+            <div class="step-info"><div class="sname">Kanchi Kamakshi Temple</div><div class="smeta">Day 2 · 3.5 hr drive · Arrive noon<br>Best visiting: 6–9 AM or 4–7 PM</div></div>
+          </div>
+          <div class="route-step">
+            <div class="step-line"><div class="step-dot">3</div><div class="step-conn"></div></div>
+            <div class="step-info"><div class="sname">Meenakshi Amman, Madurai</div><div class="smeta">Day 3–4 · 5 hr drive · 2-night stay<br>Evening aarti at 9 PM — unmissable</div></div>
+          </div>
+          <div class="route-step">
+            <div class="step-line"><div class="step-dot">4</div></div>
+            <div class="step-info"><div class="sname">Rameswaram Temple</div><div class="smeta">Day 5 · 2.5 hr drive · Return same day<br>22 theertham ritual baths available</div></div>
+          </div>
+        </div>
+        <div class="route-summary-row">
+          <div class="rsm"><div class="rsm-num">5</div><div class="rsm-lbl">Days</div></div>
+          <div class="rsm"><div class="rsm-num">4</div><div class="rsm-lbl">Temples</div></div>
+          <div class="rsm"><div class="rsm-num">680 km</div><div class="rsm-lbl">Distance</div></div>
+          <div class="rsm"><div class="rsm-num">₹4,200</div><div class="rsm-lbl">Est. cost</div></div>
+        </div>
+        <button class="btn-gold" style="margin-top:16px;text-decoration:none;display:inline-flex;align-items:center;gap:8px" onclick="showToast('ti-download','Itinerary PDF downloading...')"><i class="ti ti-download"></i> Download itinerary PDF</button>
+      </div>
+      <div class="map-box">
+        <div class="map-bg-img"></div>
+        <div class="map-overlay-ui">
+          <svg class="route-line-svg" viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="180,44 140,110 100,178 128,252" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="6,4" opacity=".65"/>
+          </svg>
+          <div class="map-pin" style="top:30px;left:170px"><div class="pin-dot"></div><div class="pin-label">Tirupati</div></div>
+          <div class="map-pin" style="top:98px;left:128px"><div class="pin-dot"></div><div class="pin-label">Kanchipuram</div></div>
+          <div class="map-pin" style="top:165px;left:86px"><div class="pin-dot"></div><div class="pin-label">Madurai</div></div>
+          <div class="map-pin" style="top:240px;left:113px"><div class="pin-dot"></div><div class="pin-label">Rameswaram</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- CURATED CIRCUITS -->
+<section class="content-sec alt" id="curated">
+  <div class="content-sec-in">
+    <div class="eyebrow">Popular journeys</div>
+    <div class="sec-h" style="color:#fff">Curated pilgrimage circuits</div>
+    <div class="sec-sub">Time-tested routes followed by thousands of pilgrims every year.</div>
+    <div class="temple-cards-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="itin-card">
+        <div class="itin-card-head"><div class="ich-title">Char Dham Yatra</div><div class="ich-meta"><span>12 days</span><span>4 temples</span><span>Uttarakhand</span></div></div>
+        <div class="itin-card-body">
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Yamunotri Temple</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Gangotri Temple</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Kedarnath Temple</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Badrinath Temple</div></div>
+          <button class="btn-outline-gold" style="width:100%;margin-top:14px" onclick="showToast('ti-route','Char Dham circuit added to your plan!')">Use this route</button>
+        </div>
+      </div>
+      <div class="itin-card">
+        <div class="itin-card-head"><div class="ich-title">Jyotirlinga Circuit (West)</div><div class="ich-meta"><span>7 days</span><span>3 temples</span><span>Gujarat &amp; MP</span></div></div>
+        <div class="itin-card-body">
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Somnath Temple</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Nageshwar Temple</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Omkareshwar Temple</div></div>
+          <button class="btn-outline-gold" style="width:100%;margin-top:14px" onclick="showToast('ti-route','Jyotirlinga circuit added to your plan!')">Use this route</button>
+        </div>
+      </div>
+      <div class="itin-card">
+        <div class="itin-card-head"><div class="ich-title">Golden Triangle Spiritual</div><div class="ich-meta"><span>4 days</span><span>3 temples</span><span>North India</span></div></div>
+        <div class="itin-card-body">
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Akshardham, Delhi</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Kashi Vishwanath, Varanasi</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Golden Temple, Amritsar</div></div>
+          <button class="btn-outline-gold" style="width:100%;margin-top:14px" onclick="showToast('ti-route','Golden Triangle circuit added to your plan!')">Use this route</button>
+        </div>
+      </div>
+      <div class="itin-card">
+        <div class="itin-card-head"><div class="ich-title">South Shakti Peeth Trail</div><div class="ich-meta"><span>6 days</span><span>3 temples</span><span>Tamil Nadu &amp; Kerala</span></div></div>
+        <div class="itin-card-body">
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Meenakshi Amman, Madurai</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Kanyakumari Devi Temple</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Sabarimala Temple</div></div>
+          <button class="btn-outline-gold" style="width:100%;margin-top:14px" onclick="showToast('ti-route','South Shakti Peeth trail added!')">Use this route</button>
+        </div>
+      </div>
+      <div class="itin-card">
+        <div class="itin-card-head"><div class="ich-title">Krishna Leela Trail</div><div class="ich-meta"><span>5 days</span><span>3 temples</span><span>Gujarat &amp; Odisha</span></div></div>
+        <div class="itin-card-body">
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Dwarkadhish Temple, Dwarka</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Jagannath Temple, Puri</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">ISKCON Temple, Vrindavan</div></div>
+          <button class="btn-outline-gold" style="width:100%;margin-top:14px" onclick="showToast('ti-route','Krishna Leela trail added to your plan!')">Use this route</button>
+        </div>
+      </div>
+      <div class="itin-card">
+        <div class="itin-card-head"><div class="ich-title">Mumbai Weekend Circuit</div><div class="ich-meta"><span>2 days</span><span>2 temples</span><span>Maharashtra</span></div></div>
+        <div class="itin-card-body">
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Siddhivinayak Temple, Mumbai</div></div>
+          <div class="itin-stop"><div class="itin-stop-dot"></div><div class="itin-stop-text">Shirdi Sai Baba Temple</div></div>
+          <button class="btn-outline-gold" style="width:100%;margin-top:14px" onclick="showToast('ti-route','Mumbai weekend circuit added!')">Use this route</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- PLANNING TIPS -->
+<section class="content-sec" id="planning-tips">
+  <div class="content-sec-in" style="max-width:760px">
+    <div class="eyebrow">Travel smart</div>
+    <div class="sec-h" style="color:#fff">Planning tips for multi-temple trips</div>
+    <div style="margin-top:28px">
+      <div class="step-card-row">
+        <div class="step-card-num"><i class="ti ti-sun" style="font-size:16px"></i></div>
+        <div class="step-card-body"><div class="scb-title">Travel during off-peak seasons</div><div class="scb-desc">Avoid major festival dates unless that's specifically your goal — crowds can be 3-5x higher during festivals like Diwali or Maha Shivaratri.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num"><i class="ti ti-clock" style="font-size:16px"></i></div>
+        <div class="step-card-body"><div class="scb-title">Book darshan slots before departure</div><div class="scb-desc">Reserve slots for each temple on your route at least 3 days in advance to guarantee priority entry.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num"><i class="ti ti-bed" style="font-size:16px"></i></div>
+        <div class="step-card-body"><div class="scb-title">Pre-book accommodation near temples</div><div class="scb-desc">Many temple towns have limited lodging — book at least a week ahead for weekend or festival travel.</div></div>
+      </div>
+      <div class="step-card-row">
+        <div class="step-card-num"><i class="ti ti-first-aid-kit" style="font-size:16px"></i></div>
+        <div class="step-card-body"><div class="scb-title">Carry essentials for long queues</div><div class="scb-desc">Water, comfortable footwear, and any medication — some temple queues involve hours of standing.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section class="content-sec alt" id="faq">
+  <div class="content-sec-in" style="max-width:760px">
+    <div class="eyebrow">Questions</div>
+    <div class="sec-h" style="color:#fff">Frequently asked questions</div>
+    <div style="margin-top:20px">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Can I customize a curated circuit?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Yes — select "Use this route" and you can add, remove, or reorder temple stops before saving it as your active itinerary.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Does the planner book darshan slots automatically?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Not automatically — you'll need to confirm darshan slots for each temple individually from the Booking page, but the planner highlights when to book.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Are travel times accurate?</span><i class="ti ti-chevron-down"></i></div>
+        <div class="faq-a"><p>Estimated drive times are based on typical road conditions and may vary with weather, traffic, or seasonal road closures in hill regions.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">DivyaYatra</div>
+      <div class="footer-brand-sub">Pilgrimage &amp; Crowd Management</div>
+      <div class="footer-brand-desc">India's most trusted platform for temple pilgrimage planning, real-time crowd management, and sacred journey guidance.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Pilgrims</div>
+      <a href="booking.html">Book darshan slot</a>
+      <a href="temples.html">Explore temples</a>
+      <a href="planner.html">Route planner</a>
+      <a href="darshan.html">Virtual darshan</a>
+      <a href="crowd.html">Crowd alerts</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <a href="sos.html">SOS &amp; lost found</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="#">Seva &amp; donations</a>
+      <a href="#">Accommodation</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Authorities</div>
+      <a href="admin-login.html">Temple authority login</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="#">About DivyaYatra</a>
+      <a href="#">Contact us</a>
+      <a href="#">Privacy policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 DivyaYatra. All rights reserved.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg"></span></div>
+
+<script src="js/main.js"></script>
+<script>
+  (function () {
+    var raw = sessionStorage.getItem('dy_pilgrim_session');
+    if (raw) { try { var sess = JSON.parse(raw); var el = document.getElementById('pilgrimGreeting'); if (el && sess.name) el.textContent = 'Namaste, ' + sess.name.split(' ')[0]; } catch (e) {} }
+  })();
+  function pilgrimLogout() { sessionStorage.removeItem('dy_pilgrim_session'); window.location.replace('pilgrim-login.html'); }
+  function showToast(icon, msg, dur) {
+    dur = dur || 3000;
+    var t = document.getElementById('toast');
+    t.querySelector('i').className = 'ti ' + icon;
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._t);
+    t._t = setTimeout(function () { t.classList.remove('show'); }, dur);
+  }
+  var subnavLinks = document.querySelectorAll('.subnav a');
+  var sections = Array.from(subnavLinks).map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  window.addEventListener('scroll', function(){
+    var pos = window.scrollY + 140;
+    sections.forEach(function(sec, i){
+      if (sec && pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+        subnavLinks.forEach(function(l){l.classList.remove('active')});
+        subnavLinks[i].classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
